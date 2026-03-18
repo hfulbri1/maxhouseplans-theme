@@ -1,0 +1,987 @@
+/*
+ * MaxHousePlans — Modern CSS Layer
+ * style-new.css
+ *
+ * Loaded AFTER the existing style.css. This file:
+ *  - Defines CSS custom properties (design tokens)
+ *  - Implements plan card grid styles
+ *  - Implements plan page above-fold styles
+ *  - Implements sticky mobile CTA bar
+ *  - Mobile-first responsive grid
+ *  - Craftsman / warm wood aesthetic
+ *
+ * Intentionally does NOT remove existing Genesis styles — it layers on top.
+ * Future: Once the full redesign is deployed, style.css can be retired.
+ */
+
+/* ============================================================
+   DESIGN TOKENS — CSS Custom Properties
+   ============================================================ */
+:root {
+    /* Colors */
+    --color-primary:       #2C2C2C;   /* near-black charcoal — main text, headers */
+    --color-bg:            #F8F5F0;   /* warm cream — page background */
+    --color-accent:        #7A5C3E;   /* chestnut/cognac brown — CTAs, links */
+    --color-accent-dark:   #5C4430;   /* hover state for accent */
+    --color-secondary:     #4A6741;   /* forest green — tags, secondary elements */
+    --color-light:         #EDE8E0;   /* light stone — section backgrounds */
+    --color-white:         #FFFFFF;
+    --color-footer:        #2C2C2C;
+    --color-border:        #D4CEC6;
+    --color-text-muted:    #6B6560;
+
+    /* Typography */
+    --font-serif:   'Playfair Display', 'Crimson Text', Georgia, serif;
+    --font-sans:    'Inter', 'Source Sans Pro', 'Lato', system-ui, sans-serif;
+    --font-accent:  'Raleway', 'Montserrat', sans-serif;
+
+    /* Spacing (8px base grid) */
+    --space-1:  0.5rem;   /*  8px */
+    --space-2:  1rem;     /* 16px */
+    --space-3:  1.5rem;   /* 24px */
+    --space-4:  2rem;     /* 32px */
+    --space-6:  3rem;     /* 48px */
+    --space-8:  4rem;     /* 64px */
+    --space-12: 6rem;     /* 96px */
+
+    /* Layout */
+    --max-width:      1280px;
+    --content-width:  860px;
+    --header-height:  80px;
+
+    /* Border radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+
+    /* Shadows */
+    --shadow-card:  0 2px 8px rgba(44, 44, 44, 0.08);
+    --shadow-hover: 0 4px 16px rgba(44, 44, 44, 0.14);
+    --shadow-modal: 0 8px 32px rgba(44, 44, 44, 0.20);
+
+    /* Transitions */
+    --transition-fast:   0.15s ease;
+    --transition-normal: 0.25s ease;
+
+    /* Z-index layers */
+    --z-sticky-bar: 100;
+    --z-header:     200;
+    --z-modal:      400;
+}
+
+
+/* ============================================================
+   GLOBAL RESETS / OVERRIDES
+   ============================================================ */
+
+/* Warm cream background (override Genesis white default) */
+body {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+}
+
+/* Accent color for links (override Genesis blue) */
+a {
+    color: var(--color-accent);
+}
+
+a:hover,
+a:focus {
+    color: var(--color-accent-dark);
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Typography scale */
+.plan-header__title,
+.section-title,
+.plan-card__title {
+    font-family: var(--font-serif);
+}
+
+
+/* ============================================================
+   BUTTON SYSTEM
+   ============================================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-accent);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: 0.025em;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast);
+    border: 2px solid transparent;
+    line-height: 1.2;
+}
+
+.btn--accent {
+    background-color: var(--color-accent);
+    color: var(--color-white) !important;
+    border-color: var(--color-accent);
+}
+
+.btn--accent:hover,
+.btn--accent:focus {
+    background-color: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+    color: var(--color-white) !important;
+    transform: translateY(-1px);
+}
+
+.btn--secondary {
+    background-color: var(--color-light);
+    color: var(--color-primary) !important;
+    border-color: var(--color-border);
+}
+
+.btn--secondary:hover,
+.btn--secondary:focus {
+    background-color: var(--color-border);
+    color: var(--color-primary) !important;
+}
+
+.btn--outline {
+    background-color: transparent;
+    color: var(--color-accent) !important;
+    border-color: var(--color-accent);
+}
+
+.btn--outline:hover,
+.btn--outline:focus {
+    background-color: var(--color-accent);
+    color: var(--color-white) !important;
+}
+
+.btn--lg {
+    min-height: 52px;
+    padding: var(--space-2) var(--space-4);
+    font-size: 1rem;
+}
+
+.btn--sm {
+    min-height: 36px;
+    padding: 0 var(--space-2);
+    font-size: 0.8125rem;
+}
+
+.btn--full {
+    width: 100%;
+}
+
+
+/* ============================================================
+   TAGS (style chips on plan cards and plan pages)
+   ============================================================ */
+.tag {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--color-light);
+    color: var(--color-secondary);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid var(--color-border);
+}
+
+.tag--sm {
+    padding: 2px 7px;
+    font-size: 0.6875rem;
+}
+
+
+/* ============================================================
+   PLAN CARDS
+   ============================================================ */
+.plan-card {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition:
+        box-shadow var(--transition-normal),
+        transform var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+
+.plan-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* Image wrapper */
+.plan-card__image-wrap {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--color-light);
+}
+
+.plan-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+    display: block;
+}
+
+.plan-card:hover .plan-card__img {
+    transform: scale(1.02);
+}
+
+.plan-card__img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--color-light);
+}
+
+/* Badge */
+.plan-card__badge {
+    position: absolute;
+    top: var(--space-1);
+    left: var(--space-1);
+    background: var(--color-secondary);
+    color: var(--color-white);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    pointer-events: none;
+}
+
+/* Card body */
+.plan-card__body {
+    padding: var(--space-2);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.plan-card__title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.plan-card__title a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.plan-card__title a:hover {
+    color: var(--color-accent);
+}
+
+/* Specs row */
+.plan-card__specs {
+    display: flex;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    flex-wrap: wrap;
+}
+
+.plan-card__spec {
+    white-space: nowrap;
+}
+
+.plan-card__spec + .plan-card__spec::before {
+    content: '·';
+    margin-right: var(--space-2);
+    opacity: 0.5;
+}
+
+/* Tags row */
+.plan-card__tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+/* Price */
+.plan-card__price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.plan-card__price-label {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+}
+
+.plan-card__price-amount {
+    font-weight: 700;
+    color: var(--color-accent);
+    font-size: 1rem;
+}
+
+/* CTA row — pushed to bottom */
+.plan-card__cta {
+    margin-top: auto;
+    padding-top: var(--space-1);
+}
+
+
+/* ============================================================
+   PLANS GRID (archive, category, related)
+   ============================================================ */
+.plans-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+}
+
+@media (min-width: 600px) {
+    .plans-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .plans-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1280px) {
+    .plans-grid--4col {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+
+/* ============================================================
+   SECTION TITLES (shared across plan page sections)
+   ============================================================ */
+.section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0 0 var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-accent);
+    display: inline-block;
+}
+
+
+/* ============================================================
+   PLAN PAGE — ABOVE-FOLD HEADER
+   ============================================================ */
+
+/* Two-column layout: image left, details right */
+.plan-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+    padding-top: var(--space-4);
+}
+
+@media (min-width: 768px) {
+    .plan-header {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+    }
+}
+
+@media (min-width: 1024px) {
+    .plan-header {
+        grid-template-columns: 3fr 2fr;
+    }
+}
+
+/* Hero image */
+.plan-header__image .plan-hero-img,
+.plan-header__image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    display: block;
+    box-shadow: var(--shadow-card);
+}
+
+/* Details column */
+.plan-header__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.plan-header__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    color: var(--color-primary);
+}
+
+/* Style tags row */
+.plan-header__tags {
+    display: flex;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+}
+
+/* Specs grid — icons + value + label in 3-column grid */
+.plan-specs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+    background: var(--color-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-2);
+}
+
+.plan-spec {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.plan-spec__icon {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.plan-spec__value {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    line-height: 1.2;
+}
+
+.plan-spec__value--sm {
+    font-size: 0.9375rem;
+}
+
+.plan-spec__label {
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* Price display */
+.plan-header__pricing {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-1);
+}
+
+.plan-header__price-label {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.plan-header__price {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    line-height: 1;
+}
+
+/* PayPal form styling — override ugly defaults */
+.plan-header__buy-button form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+/* PayPal dropdown */
+.plan-header__buy-button select {
+    width: 100%;
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    background: var(--color-white);
+    color: var(--color-primary);
+    height: 44px;
+    font-family: var(--font-sans);
+}
+
+/* Hide the PayPal image button (JS in sticky-cta.js replaces it with .btn) */
+.plan-header__buy-button input[type="image"] {
+    display: none;
+}
+
+/* Secondary actions (modification, etc.) */
+.plan-header__secondary-actions {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+/* Contact block */
+.plan-header__contact {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+}
+
+.plan-header__contact p {
+    margin: var(--space-1) 0 0;
+    font-size: 0.875rem;
+}
+
+.plan-contact-link {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.plan-contact-link:hover {
+    color: var(--color-accent);
+}
+
+
+/* ============================================================
+   PLAN PAGE — PHOTO GALLERY SECTION
+   ============================================================ */
+.plan-gallery-section {
+    margin-bottom: var(--space-8);
+}
+
+/* Override WP gallery inline styles */
+.plan-gallery-section .gallery {
+    display: grid !important;
+    gap: var(--space-1);
+}
+
+.plan-gallery-section .gallery-columns-2 { grid-template-columns: repeat(2, 1fr); }
+.plan-gallery-section .gallery-columns-3 { grid-template-columns: repeat(3, 1fr); }
+.plan-gallery-section .gallery-columns-4 { grid-template-columns: repeat(2, 1fr); }
+.plan-gallery-section .gallery-columns-6 { grid-template-columns: repeat(3, 1fr); }
+
+@media (min-width: 600px) {
+    .plan-gallery-section .gallery-columns-4 { grid-template-columns: repeat(4, 1fr); }
+    .plan-gallery-section .gallery-columns-6 { grid-template-columns: repeat(6, 1fr); }
+}
+
+.plan-gallery-section .gallery-item {
+    margin: 0 !important;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    aspect-ratio: 4 / 3;
+}
+
+.plan-gallery-section .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-normal);
+}
+
+.plan-gallery-section .gallery-item:hover img {
+    transform: scale(1.04);
+}
+
+
+/* ============================================================
+   PLAN PAGE — DESCRIPTION SECTION
+   ============================================================ */
+.plan-description-section {
+    margin-bottom: var(--space-8);
+}
+
+.plan-description {
+    max-width: 72ch;
+    line-height: 1.7;
+}
+
+.plan-description h2,
+.plan-description h3 {
+    font-family: var(--font-serif);
+    color: var(--color-primary);
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-2);
+}
+
+.plan-description p {
+    margin-bottom: var(--space-2);
+}
+
+
+/* ============================================================
+   PLAN PAGE — FLOOR PLANS SECTION
+   ============================================================ */
+.plan-floor-plans-section {
+    margin-bottom: var(--space-8);
+}
+
+.plan-floor-plans-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+}
+
+@media (min-width: 600px) {
+    .plan-floor-plans-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.plan-floor-plan {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-light);
+    border: 1px solid var(--color-border);
+}
+
+.plan-floor-plan--legacy {
+    grid-column: 1 / -1;
+}
+
+.plan-floor-plan__link {
+    display: block;
+    aspect-ratio: 4 / 3;
+}
+
+.plan-floor-plan__link img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: var(--space-2);
+    display: block;
+}
+
+
+/* ============================================================
+   PLAN PAGE — FULL SPECS TABLE
+   ============================================================ */
+.plan-specs-full-section {
+    margin-bottom: var(--space-8);
+}
+
+.plan-specs-table {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-white);
+}
+
+@media (min-width: 600px) {
+    .plan-specs-table {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.plan-specs-table__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-1) var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    gap: var(--space-2);
+    font-size: 0.9375rem;
+}
+
+.plan-specs-table__row:last-child,
+.plan-specs-table__row:nth-last-child(2):nth-child(odd) {
+    border-bottom: none;
+}
+
+.plan-specs-table__label {
+    color: var(--color-text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+    min-width: 120px;
+}
+
+.plan-specs-table__value {
+    font-weight: 600;
+    color: var(--color-primary);
+    text-align: right;
+}
+
+.plan-specs-table__row:nth-child(even) {
+    background: var(--color-bg);
+}
+
+
+/* ============================================================
+   PLAN PAGE — WHAT'S INCLUDED SECTION
+   ============================================================ */
+.plan-whats-included-section {
+    margin-bottom: var(--space-8);
+    background: var(--color-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+}
+
+.plan-included-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+    .plan-included-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.plan-included-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.plan-included-list li {
+    font-size: 0.9375rem;
+    color: var(--color-primary);
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.plan-included-list li:last-child {
+    border-bottom: none;
+}
+
+.plan-included-notes h3 {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    margin: 0 0 var(--space-1);
+    color: var(--color-primary);
+}
+
+.plan-included-notes p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+}
+
+/* Modifications CTA block */
+.plan-modifications-cta {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-start;
+}
+
+.plan-modifications-cta h3 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    margin: 0;
+    color: var(--color-primary);
+}
+
+.plan-modifications-cta p {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    max-width: 60ch;
+    margin: 0;
+}
+
+
+/* ============================================================
+   PLAN PAGE — RELATED PLANS SECTION
+   ============================================================ */
+.plan-related-section {
+    margin-bottom: var(--space-8);
+}
+
+
+/* ============================================================
+   STICKY MOBILE CTA BAR
+   ============================================================ */
+.mobile-cta-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background: var(--color-white);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -2px 12px rgba(44, 44, 44, 0.12);
+    display: none; /* Hidden by default; JS adds .is-visible */
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-2);
+    padding-bottom: env(safe-area-inset-bottom, 0px); /* iOS safe area */
+    z-index: var(--z-sticky-bar);
+}
+
+/* Only show on mobile widths */
+@media (max-width: 768px) {
+    .mobile-cta-bar.is-visible {
+        display: flex;
+    }
+}
+
+.mobile-cta-bar__info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.mobile-cta-bar__name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mobile-cta-bar__price {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    line-height: 1;
+}
+
+.mobile-cta-bar__actions {
+    display: flex;
+    gap: var(--space-1);
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.mobile-cta-bar__buy {
+    min-width: 100px;
+    height: 40px;
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    font-family: var(--font-accent);
+    transition: background-color var(--transition-fast);
+}
+
+.mobile-cta-bar__buy:hover,
+.mobile-cta-bar__buy:focus {
+    background-color: var(--color-accent-dark);
+}
+
+.mobile-cta-bar__call {
+    height: 40px;
+    padding: 0 var(--space-2);
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent) !important;
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.mobile-cta-bar__call:hover,
+.mobile-cta-bar__call:focus {
+    background-color: var(--color-accent);
+    color: var(--color-white) !important;
+}
+
+/* Push page content up so it's not hidden behind the sticky bar */
+@media (max-width: 768px) {
+    .site-footer {
+        padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+
+/* ============================================================
+   GALLERY OVERRIDE (WordPress native gallery)
+   Uses .gallery class — replaces the per-page inline style block
+   ============================================================ */
+.gallery {
+    display: grid;
+    gap: 4px;
+    margin: 0 0 var(--space-4);
+}
+
+.gallery-columns-1 { grid-template-columns: 1fr; }
+.gallery-columns-2 { grid-template-columns: repeat(2, 1fr); }
+.gallery-columns-3 { grid-template-columns: repeat(3, 1fr); }
+.gallery-columns-4 { grid-template-columns: repeat(2, 1fr); }
+.gallery-columns-5 { grid-template-columns: repeat(3, 1fr); }
+.gallery-columns-6 { grid-template-columns: repeat(3, 1fr); }
+.gallery-columns-7 { grid-template-columns: repeat(4, 1fr); }
+.gallery-columns-8 { grid-template-columns: repeat(4, 1fr); }
+.gallery-columns-9 { grid-template-columns: repeat(4, 1fr); }
+
+@media (min-width: 600px) {
+    .gallery-columns-4 { grid-template-columns: repeat(4, 1fr); }
+    .gallery-columns-5 { grid-template-columns: repeat(5, 1fr); }
+    .gallery-columns-6 { grid-template-columns: repeat(6, 1fr); }
+}
+
+.gallery-item {
+    margin: 0;
+    overflow: hidden;
+}
+
+.gallery-item dt {
+    margin: 0;
+    padding: 0;
+}
+
+.gallery-icon img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gallery-caption {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    padding: 4px var(--space-1);
+    text-align: center;
+}
