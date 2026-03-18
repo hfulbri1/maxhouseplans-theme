@@ -1,0 +1,46 @@
+<?php /* Template Name: 1000sqft */
+ 
+remove_action('genesis_loop', 'genesis_do_loop');
+add_action('genesis_loop', 'custom_loop');
+function custom_loop() {  ?>
+
+<?php query_posts( array( 'cat' => 43, 'meta_key' => 'plan_name', 'orderby' => 'meta_value', 'order' => 'ASC', 'paged' => get_query_var('paged') ) ); ?>
+
+<h1><?php echo single_cat_title(); ?></h1>
+
+<?php if (have_posts()) : $count = 0; while (have_posts()) : the_post(); $count++; ?>
+
+<div class="plans">
+<h2 class="title"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title(); ?>"><?php the_field( "plan_name" );  ?></a></h2>
+		<div class="planthumb one-half first"><?php genesis_do_post_image(); ?>
+<div class="planbutton"><a href="<?php the_permalink() ?>" rel="bookmark" alt="View House Plan"class="classname">View House Plan</a></div>
+</div>
+
+		
+<div class="planwrap one-half">
+
+		<div class="plandata">
+
+
+		<ul>
+			<li><strong>Total Living Area:</strong>  <?php the_field("total_living_area" ); ?></li>
+			<li><strong>Bedrooms:</strong>   <?php the_field("bedrooms" ); ?></li>
+			<li><strong>Bathrooms:</strong>  <?php the_field( "bathrooms" );  ?></li>
+			<li><strong>Stories:</strong>  <?php the_field( "stories" );  ?></li>
+			<li><strong>Style:</strong>   <?php the_field("style" ); ?></li>
+		</ul>
+			                </div><!-- /.plandata -->
+
+</div>
+
+	</div><!-- /.plans -->
+
+<?php endwhile; endif;?>
+
+<?php genesis_numeric_posts_nav();?>
+
+<?php
+}
+remove_action('genesis_before_post_content', 'genesis_post_info');
+     
+genesis(); ?>
