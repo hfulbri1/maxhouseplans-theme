@@ -1,0 +1,330 @@
+/**
+ * Plan: Carolina Farmhouse
+ * Slug: carolina-farmhouse
+ * Body Class: .plan-carolina-farmhouse
+ *
+ * Design: Modern Farmhouse — warm white, sage green, rust/terracotta, tan
+ * Fonts: Playfair Display (display), Jost (body)
+ * Unique: Rust CTA color, sage green accents, farmhouse warm-white palette
+ *         Sticky site header included in original template (not needed in WP)
+ * Template: Claude.ai generated, converted for Genesis single-plans.php
+ */
+
+/* ── Color Tokens ── */
+.plan-carolina-farmhouse {
+  --mhp-color-cream:         #F7F3EE;
+  --mhp-color-warm-white:    #FDFAF6;
+  --mhp-color-slate:         #2C3035;
+  --mhp-color-slate-mid:     #4A5059;
+  --mhp-color-slate-light:   #7A8390;
+  --mhp-color-sage:          #6B7C69;
+  --mhp-color-sage-light:    #EBF0E8;
+  --mhp-color-rust:          #B85C38;
+  --mhp-color-rust-dark:     #93431F;
+  --mhp-color-tan:           #C9A97A;
+  --mhp-color-tan-light:     #F0E6D6;
+  --mhp-color-border:        #DDD6CC;
+  --mhp-color-primary:       #2C3035;
+  --mhp-color-accent:        #B85C38;
+  --mhp-color-accent-light:  #D4784E;
+  --mhp-color-accent-warm:   #93431F;
+  --mhp-color-success:       #6B7C69;
+  --mhp-color-text:          #2C3035;
+  --mhp-color-text-secondary:#4A5059;
+  --mhp-color-text-light:    #7A8390;
+}
+
+/* ── Font declarations ── */
+.plan-carolina-farmhouse {
+  --mhp-font-display: 'Playfair Display', Georgia, serif;
+  --mhp-font-body:    'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Page background ── */
+.plan-carolina-farmhouse .mhp-plan-wrap {
+  background: var(--mhp-color-warm-white);
+  color: var(--mhp-color-slate);
+  font-family: var(--mhp-font-body);
+}
+
+/* ── Hero badge — rust ── */
+.plan-carolina-farmhouse .mhp-hero-badge {
+  background: var(--mhp-color-rust) !important;
+  color: #fff !important;
+}
+
+/* ── Social proof overlay ── */
+.plan-carolina-farmhouse .mhp-social-proof {
+  background: rgba(44, 48, 53, 0.72) !important;
+}
+
+/* ── Stat values ── */
+.plan-carolina-farmhouse .mhp-stat-value {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-slate);
+}
+
+/* ── Hero title ── */
+.plan-carolina-farmhouse .mhp-hero-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-slate);
+}
+.plan-carolina-farmhouse .mhp-hero-title em {
+  color: var(--mhp-color-rust);
+  font-style: italic;
+}
+
+/* ── Stars ── */
+.plan-carolina-farmhouse .mhp-stars {
+  color: var(--mhp-color-rust);
+}
+
+/* ── Price amount ── */
+.plan-carolina-farmhouse .mhp-price-amount {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-slate);
+}
+
+/* ── Breadcrumb ── */
+.plan-carolina-farmhouse .mhp-breadcrumb a {
+  color: var(--mhp-color-rust);
+}
+
+/* ── Plan number ── */
+.plan-carolina-farmhouse .mhp-plan-number {
+  color: var(--mhp-color-rust);
+}
+.plan-carolina-farmhouse .mhp-plan-number::before {
+  background: var(--mhp-color-rust);
+}
+
+/* ── CTA Buttons ── */
+.plan-carolina-farmhouse .mhp-btn-primary {
+  background: var(--mhp-color-rust);
+  box-shadow: 0 4px 18px rgba(184, 92, 56, 0.28);
+}
+.plan-carolina-farmhouse .mhp-btn-primary:hover {
+  background: var(--mhp-color-accent-light);
+}
+.plan-carolina-farmhouse .mhp-btn-sticky {
+  background: var(--mhp-color-rust);
+}
+.plan-carolina-farmhouse .mhp-btn-sticky:hover {
+  background: var(--mhp-color-accent-light);
+}
+.plan-carolina-farmhouse .mhp-related-link {
+  color: var(--mhp-color-rust);
+}
+
+/* ── Trust strip ── */
+.plan-carolina-farmhouse .mhp-trust-strip {
+  background: var(--mhp-color-slate);
+  border-top: 2px solid var(--mhp-color-rust);
+}
+.plan-carolina-farmhouse .mhp-ts-item svg {
+  color: var(--mhp-color-rust);
+}
+
+/* ── Trust pills ── */
+.plan-carolina-farmhouse .mhp-trust-pill svg {
+  color: var(--mhp-color-sage);
+}
+
+/* ── Section titles ── */
+.plan-carolina-farmhouse .mhp-section-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-slate);
+}
+.plan-carolina-farmhouse .mhp-section-title em {
+  color: var(--mhp-color-rust);
+  font-style: italic;
+}
+
+/* ── Eyebrow ── */
+.plan-carolina-farmhouse .mhp-eyebrow-text {
+  color: var(--mhp-color-rust);
+}
+.plan-carolina-farmhouse .mhp-eyebrow-line {
+  background: var(--mhp-color-rust);
+}
+
+/* ── Floor section ── */
+.plan-carolina-farmhouse .mhp-floor-section {
+  background: #FFFFFF;
+}
+.plan-carolina-farmhouse .mhp-floor-btn.active {
+  color: var(--mhp-color-rust);
+  border-bottom-color: var(--mhp-color-rust);
+}
+.plan-carolina-farmhouse .mhp-room-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-carolina-farmhouse .mhp-room-feature {
+  color: var(--mhp-color-sage);
+}
+
+/* ── Features section ── */
+.plan-carolina-farmhouse .mhp-features-section {
+  background: var(--mhp-color-cream);
+}
+.plan-carolina-farmhouse .mhp-feature-icon {
+  background: var(--mhp-color-sage-light);
+  color: var(--mhp-color-sage);
+}
+.plan-carolina-farmhouse .mhp-feature-card:hover {
+  background: var(--mhp-color-warm-white);
+}
+.plan-carolina-farmhouse .mhp-feature-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-slate);
+}
+
+/* ── Cost estimator ── */
+.plan-carolina-farmhouse .mhp-cost-section {
+  background: var(--mhp-color-slate);
+}
+.plan-carolina-farmhouse .mhp-cost-header .mhp-eyebrow-text {
+  color: var(--mhp-color-rust);
+}
+.plan-carolina-farmhouse .mhp-cost-header .mhp-section-title {
+  color: var(--mhp-color-cream);
+}
+.plan-carolina-farmhouse .mhp-cost-header .mhp-section-title em {
+  color: var(--mhp-color-tan);
+}
+.plan-carolina-farmhouse .mhp-calc-range em {
+  color: var(--mhp-color-tan);
+}
+
+/* ── Modifications ── */
+.plan-carolina-farmhouse .mhp-mod-section {
+  background: #FFFFFF;
+}
+.plan-carolina-farmhouse .mhp-mod-icon {
+  color: var(--mhp-color-rust);
+  background: var(--mhp-color-tan-light);
+}
+.plan-carolina-farmhouse .mhp-mod-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-carolina-farmhouse .mhp-mod-price {
+  color: var(--mhp-color-rust);
+}
+.plan-carolina-farmhouse .mhp-mod-card:hover {
+  background: var(--mhp-color-cream);
+}
+
+/* ── Included ── */
+.plan-carolina-farmhouse .mhp-included-section {
+  background: var(--mhp-color-cream);
+}
+.plan-carolina-farmhouse .mhp-included-icon {
+  border-color: var(--mhp-color-border);
+  color: var(--mhp-color-rust);
+}
+.plan-carolina-farmhouse .mhp-included-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-slate);
+}
+
+/* ── FAQ ── */
+.plan-carolina-farmhouse .mhp-faq-section {
+  background: var(--mhp-color-cream);
+}
+.plan-carolina-farmhouse .mhp-faq-item {
+  background: var(--mhp-color-cream);
+}
+.plan-carolina-farmhouse .mhp-faq-q:hover {
+  background: #FFFFFF;
+}
+.plan-carolina-farmhouse .mhp-faq-q-text {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-slate);
+}
+.plan-carolina-farmhouse .mhp-faq-chevron {
+  color: var(--mhp-color-rust);
+}
+
+/* ── Related ── */
+.plan-carolina-farmhouse .mhp-related-section {
+  background: #FFFFFF;
+}
+.plan-carolina-farmhouse .mhp-related-card {
+  background: var(--mhp-color-cream);
+  border-color: var(--mhp-color-border);
+}
+.plan-carolina-farmhouse .mhp-related-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-carolina-farmhouse .mhp-related-style {
+  color: var(--mhp-color-rust);
+}
+
+/* ── Social proof ── */
+.plan-carolina-farmhouse .mhp-proof-section {
+  background: #FFFFFF;
+}
+.plan-carolina-farmhouse .mhp-proof-location {
+  color: var(--mhp-color-rust);
+}
+.plan-carolina-farmhouse .mhp-proof-quote {
+  font-family: var(--mhp-font-display);
+}
+
+/* ── Designer ── */
+.plan-carolina-farmhouse .mhp-designer-section {
+  background: var(--mhp-color-slate);
+}
+.plan-carolina-farmhouse .mhp-designer-title {
+  color: var(--mhp-color-rust);
+}
+.plan-carolina-farmhouse .mhp-designer-avatar {
+  background: linear-gradient(135deg, var(--mhp-color-rust), #A04428);
+}
+.plan-carolina-farmhouse .mhp-designer-cta {
+  border-color: rgba(184, 92, 56, 0.35);
+}
+.plan-carolina-farmhouse .mhp-designer-cta:hover {
+  border-color: var(--mhp-color-rust);
+  color: #fff;
+}
+
+/* ── Hero content ── */
+.plan-carolina-farmhouse .mhp-hero-content {
+  background: var(--mhp-color-cream);
+}
+
+/* ── Thumb active ── */
+.plan-carolina-farmhouse .mhp-hero-thumb.active::after {
+  background: var(--mhp-color-rust);
+}
+
+/* ── Sticky ── */
+.plan-carolina-farmhouse .mhp-sticky-price-main {
+  font-family: var(--mhp-font-display);
+}
+.plan-carolina-farmhouse .mhp-btn-sticky {
+  background: var(--mhp-color-rust);
+}
+
+/* ── Unique: Carolina Farmhouse has wraparound porch feature.
+   The original template had a site-header with rust border —
+   We replicate this via the trust strip top border.        ── */
+.plan-carolina-farmhouse .mhp-trust-strip {
+  border-top: 3px solid var(--mhp-color-rust);
+}
+
+/* ── Unique: Optional walkout basement — add a hint ── */
+.plan-carolina-farmhouse .mhp-floor-btn:last-child {
+  font-style: italic;
+}
+.plan-carolina-farmhouse .mhp-floor-btn:last-child::after {
+  content: ' (Optional)';
+  font-size: 0.7em;
+  opacity: 0.6;
+}
+
+/* ── Price link ── */
+.plan-carolina-farmhouse .mhp-price-secondary a {
+  color: var(--mhp-color-rust);
+}

@@ -1,0 +1,306 @@
+/**
+ * Plan: Boulder Mountain Cabin (A-Frame)
+ * Slug: a-frame-cabin-house-plan
+ * Body Class: .plan-a-frame-cabin-house-plan
+ *
+ * Design: Charcoal + Amber Gold — industrial A-frame, dark/dramatic
+ * Fonts: Instrument Serif (display), Manrope (body)
+ * Unique: Dark charcoal header card, pine green accents, A-frame badge
+ * Template: Claude.ai generated, converted for Genesis single-plans.php
+ */
+
+/* ── Color Tokens ── */
+.plan-a-frame-cabin-house-plan {
+  --mhp-color-primary:       #2A2D2E;
+  --mhp-color-primary-light: #3E4244;
+  --mhp-color-primary-dark:  #1A1C1D;
+  --mhp-color-accent:        #D4943A;
+  --mhp-color-accent-light:  #E4B06A;
+  --mhp-color-accent-warm:   #C88832;
+  --mhp-color-pine:          #3D4F3E;
+  --mhp-color-pine-light:    #E2E8E2;
+  --mhp-color-slate:         #F4F3F0;
+  --mhp-color-slate-dark:    #E8E6E1;
+  --mhp-color-charcoal:      #1E2021;
+  --mhp-color-text:          #2A2D2E;
+  --mhp-color-text-secondary:#62676A;
+  --mhp-color-text-light:    #95999D;
+  --mhp-color-border:        #DDD9D2;
+  --mhp-color-border-light:  #ECEAE5;
+  --mhp-color-success:       #4A6B4D;
+}
+
+/* ── Font declarations ── */
+.plan-a-frame-cabin-house-plan {
+  --mhp-font-display: 'Instrument Serif', Georgia, serif;
+  --mhp-font-body:    'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Page background ── */
+.plan-a-frame-cabin-house-plan .mhp-plan-wrap {
+  background: var(--mhp-color-slate);
+  color: var(--mhp-color-text);
+  font-family: var(--mhp-font-body);
+  font-weight: 400;
+}
+
+/* ── Hero badge — dark charcoal + amber ── */
+.plan-a-frame-cabin-house-plan .mhp-hero-badge {
+  background: var(--mhp-color-charcoal) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ── Social proof ── */
+.plan-a-frame-cabin-house-plan .mhp-social-proof {
+  background: rgba(30, 32, 33, 0.58) !important;
+}
+
+/* ── Stat values ── */
+.plan-a-frame-cabin-house-plan .mhp-stat-value {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary);
+}
+
+/* ── Hero title ── */
+.plan-a-frame-cabin-house-plan .mhp-hero-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-a-frame-cabin-house-plan .mhp-hero-title em {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Stars ── */
+.plan-a-frame-cabin-house-plan .mhp-stars {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Price amount ── */
+.plan-a-frame-cabin-house-plan .mhp-price-amount {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary);
+}
+
+/* ── Breadcrumb ── */
+.plan-a-frame-cabin-house-plan .mhp-breadcrumb a {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Plan number ── */
+.plan-a-frame-cabin-house-plan .mhp-plan-number {
+  color: var(--mhp-color-accent);
+}
+.plan-a-frame-cabin-house-plan .mhp-plan-number::before {
+  background: var(--mhp-color-accent);
+}
+
+/* ── CTA Buttons ── */
+.plan-a-frame-cabin-house-plan .mhp-btn-primary {
+  background: var(--mhp-color-accent);
+  box-shadow: 0 4px 18px rgba(212, 148, 58, 0.28);
+}
+.plan-a-frame-cabin-house-plan .mhp-btn-primary:hover {
+  background: var(--mhp-color-accent-warm);
+}
+.plan-a-frame-cabin-house-plan .mhp-btn-sticky {
+  background: var(--mhp-color-accent);
+}
+.plan-a-frame-cabin-house-plan .mhp-btn-sticky:hover {
+  background: var(--mhp-color-accent-warm);
+}
+.plan-a-frame-cabin-house-plan .mhp-related-link {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Trust strip ── */
+.plan-a-frame-cabin-house-plan .mhp-trust-strip {
+  background: var(--mhp-color-charcoal);
+}
+.plan-a-frame-cabin-house-plan .mhp-ts-item svg {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Trust pills ── */
+.plan-a-frame-cabin-house-plan .mhp-trust-pill svg {
+  color: var(--mhp-color-success);
+}
+
+/* ── Section titles ── */
+.plan-a-frame-cabin-house-plan .mhp-section-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-a-frame-cabin-house-plan .mhp-section-title em {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Eyebrow ── */
+.plan-a-frame-cabin-house-plan .mhp-eyebrow-text {
+  color: var(--mhp-color-accent);
+  letter-spacing: 0.14em;
+}
+.plan-a-frame-cabin-house-plan .mhp-eyebrow-line {
+  background: var(--mhp-color-accent);
+}
+
+/* ── Floor section ── */
+.plan-a-frame-cabin-house-plan .mhp-floor-section {
+  background: #FFFFFF;
+}
+.plan-a-frame-cabin-house-plan .mhp-floor-btn.active {
+  color: var(--mhp-color-accent);
+  border-bottom-color: var(--mhp-color-accent);
+}
+.plan-a-frame-cabin-house-plan .mhp-room-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-a-frame-cabin-house-plan .mhp-room-feature {
+  color: var(--mhp-color-success);
+}
+
+/* ── Features section ── */
+.plan-a-frame-cabin-house-plan .mhp-features-section {
+  background: var(--mhp-color-slate);
+}
+.plan-a-frame-cabin-house-plan .mhp-feature-icon {
+  background: var(--mhp-color-slate-dark);
+  color: var(--mhp-color-accent);
+}
+.plan-a-frame-cabin-house-plan .mhp-feature-card:hover {
+  background: #FFFFFF;
+}
+.plan-a-frame-cabin-house-plan .mhp-feature-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── Cost estimator — very dark charcoal ── */
+.plan-a-frame-cabin-house-plan .mhp-cost-section {
+  background: linear-gradient(145deg, #1A1C1D 0%, #2A2D2E 50%, #35383A 100%);
+}
+.plan-a-frame-cabin-house-plan .mhp-cost-header .mhp-eyebrow-text {
+  color: var(--mhp-color-accent-light);
+}
+.plan-a-frame-cabin-house-plan .mhp-cost-header .mhp-section-title em {
+  color: var(--mhp-color-accent-light);
+}
+.plan-a-frame-cabin-house-plan .mhp-calc-range em {
+  color: var(--mhp-color-accent-light);
+}
+
+/* ── Modifications ── */
+.plan-a-frame-cabin-house-plan .mhp-mod-section {
+  background: #FFFFFF;
+}
+.plan-a-frame-cabin-house-plan .mhp-mod-icon {
+  color: var(--mhp-color-accent);
+  background: var(--mhp-color-slate-dark);
+}
+.plan-a-frame-cabin-house-plan .mhp-mod-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-a-frame-cabin-house-plan .mhp-mod-price {
+  color: var(--mhp-color-accent);
+}
+.plan-a-frame-cabin-house-plan .mhp-mod-card:hover {
+  background: var(--mhp-color-slate);
+}
+
+/* ── Included ── */
+.plan-a-frame-cabin-house-plan .mhp-included-section {
+  background: var(--mhp-color-slate);
+}
+.plan-a-frame-cabin-house-plan .mhp-included-icon {
+  border-color: var(--mhp-color-border);
+  color: var(--mhp-color-accent);
+}
+.plan-a-frame-cabin-house-plan .mhp-included-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── FAQ ── */
+.plan-a-frame-cabin-house-plan .mhp-faq-section {
+  background: var(--mhp-color-slate);
+}
+.plan-a-frame-cabin-house-plan .mhp-faq-item {
+  background: var(--mhp-color-slate);
+}
+.plan-a-frame-cabin-house-plan .mhp-faq-q:hover {
+  background: #FFFFFF;
+}
+.plan-a-frame-cabin-house-plan .mhp-faq-q-text {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-a-frame-cabin-house-plan .mhp-faq-chevron {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Related ── */
+.plan-a-frame-cabin-house-plan .mhp-related-section {
+  background: #FFFFFF;
+}
+.plan-a-frame-cabin-house-plan .mhp-related-card {
+  background: var(--mhp-color-slate);
+  border-color: var(--mhp-color-border);
+}
+.plan-a-frame-cabin-house-plan .mhp-related-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-a-frame-cabin-house-plan .mhp-related-style {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Social proof ── */
+.plan-a-frame-cabin-house-plan .mhp-proof-section {
+  background: #FFFFFF;
+}
+.plan-a-frame-cabin-house-plan .mhp-proof-location {
+  color: var(--mhp-color-accent);
+}
+.plan-a-frame-cabin-house-plan .mhp-proof-quote {
+  font-family: var(--mhp-font-display);
+}
+
+/* ── Designer ── */
+.plan-a-frame-cabin-house-plan .mhp-designer-section {
+  background: var(--mhp-color-charcoal);
+}
+.plan-a-frame-cabin-house-plan .mhp-designer-title {
+  color: var(--mhp-color-accent-light);
+}
+.plan-a-frame-cabin-house-plan .mhp-designer-avatar {
+  background: linear-gradient(135deg, var(--mhp-color-accent), var(--mhp-color-accent-warm));
+}
+
+/* ── Hero content bg ── */
+.plan-a-frame-cabin-house-plan .mhp-hero-content {
+  background: var(--mhp-color-slate);
+}
+
+/* ── Thumb active ── */
+.plan-a-frame-cabin-house-plan .mhp-hero-thumb.active::after {
+  background: var(--mhp-color-accent);
+}
+
+/* ── Sticky bar price ── */
+.plan-a-frame-cabin-house-plan .mhp-sticky-price-main {
+  font-family: var(--mhp-font-display);
+}
+
+/* ── A-frame unique: 3-level layout highlight ──
+   The plan has 3 levels. Floor plan tabs should show
+   Main / Upper / Lower. This is handled by ACF data.
+   Adding a visual treat for the 3rd floor tab.          ── */
+.plan-a-frame-cabin-house-plan .mhp-floor-btn:nth-child(3).active {
+  color: var(--mhp-color-pine);
+  border-bottom-color: var(--mhp-color-pine);
+}
+
+/* ── Barn doors call-out (unique feature per FAQ) ── */
+.plan-a-frame-cabin-house-plan .mhp-feature-card:nth-child(1) .mhp-feature-icon {
+  background: rgba(61, 79, 62, 0.12);
+  color: var(--mhp-color-pine);
+}

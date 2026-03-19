@@ -1,0 +1,349 @@
+/**
+ * Plan: Sunset Ridge (Viral TikTok House Plan)
+ * Slug: tiktok-house-plan-sunset-ridge
+ * Body Class: .plan-tiktok-house-plan-sunset-ridge
+ *
+ * Design: Modern Farmhouse — warm linen, sage green, warm brown gold, clean
+ * Fonts: Playfair Display (display), Outfit (body)
+ * Unique: "Viral TikTok" badge, one-story emphasis, carport callout,
+ *         $1,500 PDF / $1,950 CAD pricing, 3,196 sq ft single-story
+ * Template: Claude.ai generated, converted for Genesis single-plans.php
+ */
+
+/* ── Color Tokens ── */
+.plan-tiktok-house-plan-sunset-ridge {
+  --mhp-color-primary:       #3B3A37;
+  --mhp-color-primary-light: #5C5A55;
+  --mhp-color-primary-dark:  #2A2926;
+  --mhp-color-accent:        #8B6F47;
+  --mhp-color-accent-light:  #A68A5F;
+  --mhp-color-accent-warm:   #9C7B50;
+  --mhp-color-cream:         #FDFBF7;
+  --mhp-color-cream-dark:    #F5F0E8;
+  --mhp-color-warm-white:    #FAF8F4;
+  --mhp-color-linen:         #EDE8DE;
+  --mhp-color-sage:          #7A8B6F;
+  --mhp-color-sage-light:    #E8EDE4;
+  --mhp-color-text:          #2D2C29;
+  --mhp-color-text-secondary:#6B6A65;
+  --mhp-color-text-light:    #9A9890;
+  --mhp-color-border:        #E6E1D8;
+  --mhp-color-border-light:  #F0ECE4;
+  --mhp-color-success:       #6B8F5E;
+}
+
+/* ── Font declarations ── */
+.plan-tiktok-house-plan-sunset-ridge {
+  --mhp-font-display: 'Playfair Display', Georgia, serif;
+  --mhp-font-body:    'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Page background ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-plan-wrap {
+  background: var(--mhp-color-cream);
+  color: var(--mhp-color-text);
+  font-family: var(--mhp-font-body);
+}
+
+/* ── Hero badge ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-hero-badge {
+  background: var(--mhp-color-primary-dark) !important;
+  color: #fff !important;
+}
+
+/* ── Social proof ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-social-proof {
+  background: rgba(43, 41, 38, 0.72) !important;
+}
+
+/* ── Stat values ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-stat-value {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── Hero title ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-hero-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-hero-title em {
+  color: var(--mhp-color-accent);
+  font-style: italic;
+}
+
+/* ── Stars ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-stars {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Price ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-price-amount {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-price-secondary a {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Breadcrumb ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-breadcrumb a {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Plan number ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-plan-number {
+  color: var(--mhp-color-accent);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-plan-number::before {
+  background: var(--mhp-color-accent);
+}
+
+/* ── CTA Buttons ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-btn-primary {
+  background: var(--mhp-color-accent);
+  box-shadow: 0 4px 18px rgba(139, 111, 71, 0.28);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-btn-primary:hover {
+  background: var(--mhp-color-accent-warm);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-btn-sticky {
+  background: var(--mhp-color-accent);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-btn-sticky:hover {
+  background: var(--mhp-color-accent-warm);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-related-link {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Trust strip ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-trust-strip {
+  background: var(--mhp-color-primary-dark);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-ts-item svg {
+  color: var(--mhp-color-sage);
+}
+
+/* ── Trust pills ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-trust-pill svg {
+  color: var(--mhp-color-success);
+}
+
+/* ── Section titles ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-section-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-section-title em {
+  color: var(--mhp-color-accent);
+  font-style: italic;
+}
+
+/* ── Eyebrow ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-eyebrow-text {
+  color: var(--mhp-color-accent);
+  letter-spacing: 0.14em;
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-eyebrow-line {
+  background: var(--mhp-color-accent);
+}
+
+/* ── Floor section ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-floor-section {
+  background: #FFFFFF;
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-floor-btn.active {
+  color: var(--mhp-color-accent);
+  border-bottom-color: var(--mhp-color-accent);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-room-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-room-feature {
+  color: var(--mhp-color-sage);
+}
+
+/* ── Features section ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-features-section {
+  background: var(--mhp-color-cream-dark);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-feature-icon {
+  background: var(--mhp-color-linen);
+  color: var(--mhp-color-accent);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-feature-card:hover {
+  background: var(--mhp-color-warm-white);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-feature-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── Cost estimator ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-cost-section {
+  background: var(--mhp-color-primary-dark);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-cost-header .mhp-eyebrow-text {
+  color: var(--mhp-color-accent-light);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-cost-header .mhp-section-title {
+  color: var(--mhp-color-cream);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-cost-header .mhp-section-title em {
+  color: var(--mhp-color-accent-light);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-calc-range em {
+  color: var(--mhp-color-accent-light);
+}
+
+/* ── Modifications ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-mod-section {
+  background: #FFFFFF;
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-mod-icon {
+  color: var(--mhp-color-accent);
+  background: var(--mhp-color-linen);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-mod-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-mod-price {
+  color: var(--mhp-color-accent);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-mod-card:hover {
+  background: var(--mhp-color-cream);
+}
+
+/* ── Included ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-included-section {
+  background: var(--mhp-color-cream);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-included-icon {
+  border-color: var(--mhp-color-border);
+  color: var(--mhp-color-accent);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-included-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── FAQ ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-faq-section {
+  background: var(--mhp-color-cream-dark);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-faq-item {
+  background: var(--mhp-color-cream-dark);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-faq-q:hover {
+  background: #FFFFFF;
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-faq-q-text {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-faq-chevron {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Related ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-related-section {
+  background: #FFFFFF;
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-related-card {
+  background: var(--mhp-color-cream);
+  border-color: var(--mhp-color-border);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-related-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-related-style {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Social proof ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-proof-section {
+  background: #FFFFFF;
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-proof-location {
+  color: var(--mhp-color-accent);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-proof-quote {
+  font-family: var(--mhp-font-display);
+}
+
+/* ── Designer ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-designer-section {
+  background: var(--mhp-color-primary-dark);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-designer-title {
+  color: var(--mhp-color-accent-light);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-designer-avatar {
+  background: linear-gradient(135deg, var(--mhp-color-accent), var(--mhp-color-accent-warm));
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-designer-cta {
+  border-color: rgba(139, 111, 71, 0.35);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-designer-cta:hover {
+  border-color: var(--mhp-color-accent-light);
+}
+
+/* ── Hero content background ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-hero-content {
+  background: var(--mhp-color-cream);
+}
+
+/* ── Thumb active ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-hero-thumb.active::after {
+  background: var(--mhp-color-accent);
+}
+
+/* ── Sticky ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-sticky-price-main {
+  font-family: var(--mhp-font-display);
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-btn-sticky {
+  background: var(--mhp-color-accent);
+}
+
+/* ── Unique: Viral/TikTok badge ──
+   Add a subtle "Viral Plan" label to the hero badge  ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-hero-badge::before {
+  content: '🔥 ';
+  font-size: 0.9em;
+}
+
+/* ── Unique: One-story plan — no "Stories" stat
+   One-story plan emphasis in stats              ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-stat:last-child .mhp-stat-label {
+  color: var(--mhp-color-sage);
+}
+
+/* ── Unique: Note about carport in feature section ──
+   36-foot carport is featured prominently in this plan.
+   The carport is unique to this plan in the portfolio.  ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-feature-card:nth-child(2) .mhp-feature-icon {
+  background: var(--mhp-color-sage-light);
+  color: var(--mhp-color-sage);
+}
+
+/* ── Modern farmhouse board-and-batten detail ──
+   Subtle grid texture on certain backgrounds          ── */
+.plan-tiktok-house-plan-sunset-ridge .mhp-features-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 40px,
+    rgba(139, 111, 71, 0.015) 40px,
+    rgba(139, 111, 71, 0.015) 41px
+  );
+  pointer-events: none;
+}
+.plan-tiktok-house-plan-sunset-ridge .mhp-features-section {
+  position: relative;
+  overflow: hidden;
+}

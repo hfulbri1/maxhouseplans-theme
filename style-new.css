@@ -1,5 +1,5 @@
-/*
- * MaxHousePlans — Modern CSS Layer
+﻿/*
+ * MaxHousePlans â€” Modern CSS Layer
  * style-new.css
  *
  * Loaded AFTER the existing style.css. This file:
@@ -10,21 +10,21 @@
  *  - Mobile-first responsive grid
  *  - Craftsman / warm wood aesthetic
  *
- * Intentionally does NOT remove existing Genesis styles — it layers on top.
+ * Intentionally does NOT remove existing Genesis styles â€” it layers on top.
  * Future: Once the full redesign is deployed, style.css can be retired.
  */
 
 /* ============================================================
-   DESIGN TOKENS — CSS Custom Properties
+   DESIGN TOKENS â€” CSS Custom Properties
    ============================================================ */
 :root {
     /* Colors */
-    --color-primary:       #2C2C2C;   /* near-black charcoal — main text, headers */
-    --color-bg:            #F8F5F0;   /* warm cream — page background */
-    --color-accent:        #7A5C3E;   /* chestnut/cognac brown — CTAs, links */
+    --color-primary:       #2C2C2C;   /* near-black charcoal â€” main text, headers */
+    --color-bg:            #F8F5F0;   /* warm cream â€” page background */
+    --color-accent:        #7A5C3E;   /* chestnut/cognac brown â€” CTAs, links */
     --color-accent-dark:   #5C4430;   /* hover state for accent */
-    --color-secondary:     #4A6741;   /* forest green — tags, secondary elements */
-    --color-light:         #EDE8E0;   /* light stone — section backgrounds */
+    --color-secondary:     #4A6741;   /* forest green â€” tags, secondary elements */
+    --color-light:         #EDE8E0;   /* light stone â€” section backgrounds */
     --color-white:         #FFFFFF;
     --color-footer:        #2C2C2C;
     --color-border:        #D4CEC6;
@@ -308,7 +308,7 @@ html {
 }
 
 .plan-card__spec + .plan-card__spec::before {
-    content: '·';
+    content: 'Â·';
     margin-right: var(--space-2);
     opacity: 0.5;
 }
@@ -338,7 +338,7 @@ html {
     font-size: 1rem;
 }
 
-/* CTA row — pushed to bottom */
+/* CTA row â€” pushed to bottom */
 .plan-card__cta {
     margin-top: auto;
     padding-top: var(--space-1);
@@ -392,7 +392,7 @@ html {
 
 
 /* ============================================================
-   PLAN PAGE — ABOVE-FOLD HEADER
+   PLAN PAGE â€” ABOVE-FOLD HEADER
    ============================================================ */
 
 /* Two-column layout: image left, details right */
@@ -450,7 +450,7 @@ html {
     flex-wrap: wrap;
 }
 
-/* Specs grid — icons + value + label in 3-column grid */
+/* Specs grid â€” icons + value + label in 3-column grid */
 .plan-specs-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -510,7 +510,7 @@ html {
     line-height: 1;
 }
 
-/* PayPal form styling — override ugly defaults */
+/* PayPal form styling â€” override ugly defaults */
 .plan-header__buy-button form {
     display: flex;
     flex-direction: column;
@@ -568,7 +568,7 @@ html {
 
 
 /* ============================================================
-   PLAN PAGE — PHOTO GALLERY SECTION
+   PLAN PAGE â€” PHOTO GALLERY SECTION
    ============================================================ */
 .plan-gallery-section {
     margin-bottom: var(--space-8);
@@ -611,7 +611,7 @@ html {
 
 
 /* ============================================================
-   PLAN PAGE — DESCRIPTION SECTION
+   PLAN PAGE â€” DESCRIPTION SECTION
    ============================================================ */
 .plan-description-section {
     margin-bottom: var(--space-8);
@@ -636,7 +636,7 @@ html {
 
 
 /* ============================================================
-   PLAN PAGE — FLOOR PLANS SECTION
+   PLAN PAGE â€” FLOOR PLANS SECTION
    ============================================================ */
 .plan-floor-plans-section {
     margin-bottom: var(--space-8);
@@ -680,7 +680,7 @@ html {
 
 
 /* ============================================================
-   PLAN PAGE — FULL SPECS TABLE
+   PLAN PAGE â€” FULL SPECS TABLE
    ============================================================ */
 .plan-specs-full-section {
     margin-bottom: var(--space-8);
@@ -736,7 +736,7 @@ html {
 
 
 /* ============================================================
-   PLAN PAGE — WHAT'S INCLUDED SECTION
+   PLAN PAGE â€” WHAT'S INCLUDED SECTION
    ============================================================ */
 .plan-whats-included-section {
     margin-bottom: var(--space-8);
@@ -817,7 +817,7 @@ html {
 
 
 /* ============================================================
-   PLAN PAGE — RELATED PLANS SECTION
+   PLAN PAGE â€” RELATED PLANS SECTION
    ============================================================ */
 .plan-related-section {
     margin-bottom: var(--space-8);
@@ -939,7 +939,7 @@ html {
 
 /* ============================================================
    GALLERY OVERRIDE (WordPress native gallery)
-   Uses .gallery class — replaces the per-page inline style block
+   Uses .gallery class â€” replaces the per-page inline style block
    ============================================================ */
 .gallery {
     display: grid;
@@ -987,8 +987,8 @@ html {
 }
 
 /* ============================================================
-   MHP DESIGN SYSTEM — NEW TOKENS (clay/charcoal/cream system)
-   Added 2026-03-18 — do NOT remove older tokens above
+   MHP DESIGN SYSTEM â€” NEW TOKENS (clay/charcoal/cream system)
+   Added 2026-03-18 â€” do NOT remove older tokens above
    ============================================================ */
 :root {
   --mhp-charcoal:           #1C1C1C;
@@ -1006,7 +1006,7 @@ html {
    NAV / HEADER
    ============================================================ */
 .mhp-nav {
-  position: fixed;
+  position: relative;
   top: 0; left: 0; right: 0;
   z-index: 200;
   display: flex;
@@ -1393,7 +1393,7 @@ html {
 }
 
 /* ============================================================
-   PLAN PAGE — HERO
+   PLAN PAGE â€” HERO
    ============================================================ */
 
 /* Push content below fixed nav */
@@ -1405,13 +1405,13 @@ html {
 .mhp-plan-hero {
   background: var(--mhp-cream);
   min-height: 100svh;
-  padding-top: 61px; /* nav height */
+  padding-top: 0; /* nav not fixed */
 }
 
 .mhp-plan-hero-inner {
   display: grid;
-  grid-template-columns: 55% 45%;
-  min-height: calc(100svh - 61px);
+  grid-template-columns: 75% 25%; /* locked */
+  min-height: 90vh;
 }
 
 @media (max-width: 900px) {
@@ -1473,6 +1473,7 @@ html {
   padding: 5px 12px;
   z-index: 2;
 }
+.mhp-gallery-badge { display: none !important; }
 
 /* Thumbnail strip */
 .mhp-gallery-thumbs {
@@ -1862,7 +1863,7 @@ html {
 }
 
 /* ============================================================
-   PLAN PAGE — SECTION COMPONENTS
+   PLAN PAGE â€” SECTION COMPONENTS
    ============================================================ */
 .mhp-section {
   padding: var(--mhp-section-pad) var(--mhp-side-pad);
@@ -2137,7 +2138,7 @@ html {
 .mhp-related-link:hover { text-decoration: underline; }
 
 /* ============================================================
-   RESPONSIVE — plan page hero mobile
+   RESPONSIVE â€” plan page hero mobile
    ============================================================ */
 @media (max-width: 900px) {
   .mhp-plan-hero { padding-top: 56px; }
@@ -2155,4 +2156,211 @@ html {
   .mhp-plan-info { padding: 24px 20px 40px; }
   .mhp-sticky-bar { padding: 10px 16px; }
   .mhp-footer-bottom-inner { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+
+/* ---- PayPal hide + styled button ---- */
+.mhp-paypal-wrap { display: none !important; }
+
+.mhp-payment-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--mhp-warm-gray, #8A8278);
+  margin-top: 10px;
+  letter-spacing: 0.02em;
+}
+
+/* ---- Breadcrumb cleanup ---- */
+.mhp-plan-breadcrumb {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mhp-warm-gray, #8A8278);
+  margin-bottom: 16px;
+}
+.mhp-plan-breadcrumb a {
+  color: var(--mhp-clay, #C4714A);
+  text-decoration: none;
+}
+.mhp-plan-breadcrumb a:hover { text-decoration: underline; }
+
+/* ---- Category tags above breadcrumb ---- */
+.mhp-plan-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.mhp-plan-tag {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mhp-clay, #C4714A);
+  border: 1px solid rgba(196,113,74,0.3);
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mhp-plan-tag:hover {
+  background: var(--mhp-clay, #C4714A);
+  color: white;
+}
+
+
+/* ============================================================
+   TWO-TONE PLAN TITLE (charcoal + clay italic)
+   ============================================================ */
+.mhp-plan-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.mhp-plan-title .title-line1 {
+  display: block;
+  color: var(--mhp-charcoal);
+}
+
+.mhp-plan-title .title-line2 {
+  display: block;
+  color: var(--mhp-clay);
+  font-style: italic;
+}
+
+/* Nav static (not sticky) */
+.mhp-nav {
+  position: relative !important;
+  box-shadow: 0 1px 0 var(--mhp-warm-gray-lighter);
+}
+
+/* Hero fills viewport since nav is static */
+.mhp-plan-hero {
+  padding-top: 0 !important;
+}
+
+.mhp-plan-hero-inner {
+  min-height: 90vh;
+  grid-template-columns: 75% 25%;
+}
+
+/* Hide gallery badge/overlay */
+.mhp-gallery-badge { display: none !important; }
+.play-badge { display: none !important; }
+
+/* ============================================================
+   FIX: Remove 1995-style inline width/height from WP gallery images
+   ============================================================ */
+.mhp-floor-plans-content img,
+.mhp-floor-plans-content .gallery img,
+.mhp-floor-plans-content .gallery-item img {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  display: block;
+}
+.mhp-floor-plans-content .gallery {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap: 12px !important;
+  margin: 0 !important;
+}
+.mhp-floor-plans-content .gallery-item {
+  margin: 0 !important;
+  float: none !important;
+  width: auto !important;
+}
+.mhp-floor-plans-content #gallery-1,
+.mhp-floor-plans-content [id^="gallery-"] {
+  margin: 0 !important;
+}
+
+/* ---- Thumb more overlay ---- */
+.mhp-thumb-more { position: relative; }
+.mhp-thumb-more-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(28,28,28,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  z-index: 4;
+  transition: background 0.2s;
+}
+.mhp-thumb-more-overlay:hover { background: rgba(196,113,74,0.85); color: white; }
+.mhp-thumb-more-overlay span { pointer-events: none; }
+
+/* ---- Buy button price display ---- */
+.mhp-btn-primary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 13px 18px;
+}
+.mhp-btn-price {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  color: white;
+}
+.mhp-btn-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ---- Gallery prev/next arrows + counter ---- */
+.mhp-gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(28,28,28,0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: white;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: background 0.2s, opacity 0.2s;
+  opacity: 0;
+}
+.mhp-hero-video-wrap:hover .mhp-gallery-arrow,
+.mhp-gallery-arrow:focus { opacity: 1; }
+.mhp-gallery-prev { left: 14px; }
+.mhp-gallery-next { right: 14px; }
+.mhp-gallery-arrow:hover { background: rgba(196,113,74,0.85); }
+@media (max-width: 768px) {
+  .mhp-gallery-arrow { opacity: 1; width: 38px; height: 38px; }
+}
+
+.mhp-gallery-counter {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(28,28,28,0.65);
+  backdrop-filter: blur(6px);
+  color: rgba(255,255,255,0.7);
+  font-size: 11px;
+  font-family: 'DM Sans', sans-serif;
+  padding: 4px 10px;
+  letter-spacing: 0.06em;
+  z-index: 5;
+  pointer-events: none;
 }

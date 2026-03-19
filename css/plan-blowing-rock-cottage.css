@@ -1,0 +1,310 @@
+/**
+ * Plan: Blowing Rock Cottage
+ * Slug: small-cabin-home-plan-open-living
+ * Body Class: .plan-small-cabin-home-plan-open-living
+ *
+ * Design: Rustic Cabin — warm tan/brown earth tones, cabin green, parchment
+ * Fonts: Libre Baskerville (display), DM Sans (body)
+ * Unique: Visual story/interior tour grid section
+ * Template: Claude.ai generated, converted for Genesis single-plans.php
+ */
+
+/* ── Color Tokens ── */
+.plan-small-cabin-home-plan-open-living {
+  --mhp-color-primary:       #4A3F35;
+  --mhp-color-primary-light: #6B5D4F;
+  --mhp-color-primary-dark:  #352D24;
+  --mhp-color-accent:        #A0714F;
+  --mhp-color-accent-light:  #C49574;
+  --mhp-color-accent-warm:   #B5835C;
+  --mhp-color-cabin-green:   #5B6B52;
+  --mhp-color-cabin-green-bg:#E4E9E1;
+  --mhp-color-cream:         #FBF8F3;
+  --mhp-color-cream-dark:    #F2ECE3;
+  --mhp-color-warm-tan:      #EDE5D8;
+  --mhp-color-bark:          #3D3329;
+  --mhp-color-text:          #33302B;
+  --mhp-color-text-secondary:#6E6860;
+  --mhp-color-text-light:    #9D978F;
+  --mhp-color-border:        #E3DCCF;
+  --mhp-color-border-light:  #EDE8DF;
+}
+
+/* ── Font declarations ── */
+.plan-small-cabin-home-plan-open-living {
+  --mhp-font-display: 'Libre Baskerville', Georgia, serif;
+  --mhp-font-body:    'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Page background ── */
+.plan-small-cabin-home-plan-open-living .mhp-plan-wrap {
+  background: var(--mhp-color-cream);
+  color: var(--mhp-color-text);
+  font-family: var(--mhp-font-body);
+}
+
+/* ── Hero badge — cabin green ── */
+.plan-small-cabin-home-plan-open-living .mhp-hero-badge {
+  background: var(--mhp-color-cabin-green) !important;
+  color: #fff !important;
+}
+
+/* ── Social proof overlay ── */
+.plan-small-cabin-home-plan-open-living .mhp-social-proof {
+  background: rgba(61, 51, 41, 0.72) !important;
+}
+
+/* ── Stat values ── */
+.plan-small-cabin-home-plan-open-living .mhp-stat-value {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── Hero title ── */
+.plan-small-cabin-home-plan-open-living .mhp-hero-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-small-cabin-home-plan-open-living .mhp-hero-title em {
+  color: var(--mhp-color-accent);
+  font-style: italic;
+}
+
+/* ── Stars ── */
+.plan-small-cabin-home-plan-open-living .mhp-stars {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Price amount ── */
+.plan-small-cabin-home-plan-open-living .mhp-price-amount {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── Breadcrumb ── */
+.plan-small-cabin-home-plan-open-living .mhp-breadcrumb a {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Plan number ── */
+.plan-small-cabin-home-plan-open-living .mhp-plan-number {
+  color: var(--mhp-color-accent);
+}
+.plan-small-cabin-home-plan-open-living .mhp-plan-number::before {
+  background: var(--mhp-color-accent);
+}
+
+/* ── CTA Buttons ── */
+.plan-small-cabin-home-plan-open-living .mhp-btn-primary {
+  background: var(--mhp-color-accent);
+  box-shadow: 0 4px 18px rgba(160, 113, 79, 0.28);
+}
+.plan-small-cabin-home-plan-open-living .mhp-btn-primary:hover {
+  background: var(--mhp-color-accent-warm);
+}
+.plan-small-cabin-home-plan-open-living .mhp-btn-sticky {
+  background: var(--mhp-color-accent);
+}
+.plan-small-cabin-home-plan-open-living .mhp-btn-sticky:hover {
+  background: var(--mhp-color-accent-warm);
+}
+
+/* ── Trust strip ── */
+.plan-small-cabin-home-plan-open-living .mhp-trust-strip {
+  background: var(--mhp-color-bark);
+}
+.plan-small-cabin-home-plan-open-living .mhp-ts-item svg {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Trust pills ── */
+.plan-small-cabin-home-plan-open-living .mhp-trust-pill svg {
+  color: var(--mhp-color-cabin-green);
+}
+
+/* ── Section titles ── */
+.plan-small-cabin-home-plan-open-living .mhp-section-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-small-cabin-home-plan-open-living .mhp-section-title em {
+  color: var(--mhp-color-accent);
+  font-style: italic;
+}
+
+/* ── Eyebrow / overline ── */
+.plan-small-cabin-home-plan-open-living .mhp-eyebrow-text {
+  color: var(--mhp-color-accent);
+}
+.plan-small-cabin-home-plan-open-living .mhp-eyebrow-line {
+  background: var(--mhp-color-accent);
+}
+
+/* ── Floor plan section ── */
+.plan-small-cabin-home-plan-open-living .mhp-floor-section {
+  background: #FFFFFF;
+}
+.plan-small-cabin-home-plan-open-living .mhp-floor-btn.active {
+  color: var(--mhp-color-accent);
+  border-bottom-color: var(--mhp-color-accent);
+}
+.plan-small-cabin-home-plan-open-living .mhp-room-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-small-cabin-home-plan-open-living .mhp-room-feature {
+  color: var(--mhp-color-cabin-green);
+}
+
+/* ── Feature section ── */
+.plan-small-cabin-home-plan-open-living .mhp-features-section {
+  background: var(--mhp-color-cream);
+}
+.plan-small-cabin-home-plan-open-living .mhp-feature-icon {
+  background: var(--mhp-color-cabin-green-bg);
+  color: var(--mhp-color-cabin-green);
+}
+.plan-small-cabin-home-plan-open-living .mhp-feature-card:hover {
+  background: #FFFFFF;
+}
+.plan-small-cabin-home-plan-open-living .mhp-feature-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── Cost estimator ── */
+.plan-small-cabin-home-plan-open-living .mhp-cost-section {
+  background: linear-gradient(145deg, var(--mhp-color-bark) 0%, var(--mhp-color-primary) 60%, #594D3E 100%);
+}
+.plan-small-cabin-home-plan-open-living .mhp-cost-header .mhp-eyebrow-text {
+  color: var(--mhp-color-accent-light);
+}
+.plan-small-cabin-home-plan-open-living .mhp-cost-header .mhp-section-title em {
+  color: var(--mhp-color-accent-light);
+}
+.plan-small-cabin-home-plan-open-living .mhp-calc-range em {
+  color: var(--mhp-color-accent-light);
+}
+
+/* ── Modifications ── */
+.plan-small-cabin-home-plan-open-living .mhp-mod-section {
+  background: #FFFFFF;
+}
+.plan-small-cabin-home-plan-open-living .mhp-mod-icon {
+  color: var(--mhp-color-accent);
+  background: var(--mhp-color-warm-tan);
+}
+.plan-small-cabin-home-plan-open-living .mhp-mod-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-small-cabin-home-plan-open-living .mhp-mod-price {
+  color: var(--mhp-color-accent);
+}
+.plan-small-cabin-home-plan-open-living .mhp-mod-card:hover {
+  background: var(--mhp-color-cream);
+}
+
+/* ── Included ── */
+.plan-small-cabin-home-plan-open-living .mhp-included-section {
+  background: var(--mhp-color-cream);
+}
+.plan-small-cabin-home-plan-open-living .mhp-included-icon {
+  border-color: var(--mhp-color-border);
+  color: var(--mhp-color-cabin-green);
+}
+.plan-small-cabin-home-plan-open-living .mhp-included-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── FAQ ── */
+.plan-small-cabin-home-plan-open-living .mhp-faq-section {
+  background: var(--mhp-color-cream);
+}
+.plan-small-cabin-home-plan-open-living .mhp-faq-item {
+  background: var(--mhp-color-cream);
+}
+.plan-small-cabin-home-plan-open-living .mhp-faq-q:hover {
+  background: #FFFFFF;
+}
+.plan-small-cabin-home-plan-open-living .mhp-faq-q-text {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-small-cabin-home-plan-open-living .mhp-faq-chevron {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Related ── */
+.plan-small-cabin-home-plan-open-living .mhp-related-section {
+  background: #FFFFFF;
+}
+.plan-small-cabin-home-plan-open-living .mhp-related-card {
+  background: var(--mhp-color-cream);
+  border-color: var(--mhp-color-border);
+}
+.plan-small-cabin-home-plan-open-living .mhp-related-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-small-cabin-home-plan-open-living .mhp-related-style {
+  color: var(--mhp-color-accent);
+}
+.plan-small-cabin-home-plan-open-living .mhp-related-link {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Social proof ── */
+.plan-small-cabin-home-plan-open-living .mhp-proof-section {
+  background: #FFFFFF;
+}
+.plan-small-cabin-home-plan-open-living .mhp-proof-location {
+  color: var(--mhp-color-accent);
+}
+.plan-small-cabin-home-plan-open-living .mhp-proof-quote {
+  font-family: var(--mhp-font-display);
+}
+
+/* ── Designer ── */
+.plan-small-cabin-home-plan-open-living .mhp-designer-section {
+  background: var(--mhp-color-bark);
+}
+.plan-small-cabin-home-plan-open-living .mhp-designer-title {
+  color: var(--mhp-color-accent-light);
+}
+.plan-small-cabin-home-plan-open-living .mhp-designer-avatar {
+  background: linear-gradient(135deg, var(--mhp-color-accent), var(--mhp-color-accent-warm));
+}
+.plan-small-cabin-home-plan-open-living .mhp-designer-cta {
+  border-color: rgba(160, 113, 79, 0.3);
+}
+.plan-small-cabin-home-plan-open-living .mhp-designer-cta:hover {
+  border-color: var(--mhp-color-accent-light);
+}
+
+/* ── Sticky bar ── */
+.plan-small-cabin-home-plan-open-living .mhp-sticky-price-main {
+  font-family: var(--mhp-font-display);
+}
+.plan-small-cabin-home-plan-open-living .mhp-btn-sticky {
+  background: var(--mhp-color-accent);
+}
+
+/* ── Hero content background ── */
+.plan-small-cabin-home-plan-open-living .mhp-hero-content {
+  background: var(--mhp-color-cream);
+}
+
+/* ── Thumb active ── */
+.plan-small-cabin-home-plan-open-living .mhp-hero-thumb.active::after {
+  background: var(--mhp-color-accent);
+}
+
+/* ── Unique: Visual story section note ──
+   The original template has a story-grid with 6 photos.
+   These images are in the WP gallery ACF, so no extra PHP needed.
+   The carousel within floor plans will handle display. ── */
+
+/* ── Narrow lot badge treatment ── */
+.plan-small-cabin-home-plan-open-living .mhp-hero-badge::after {
+  content: ' · Narrow Lot';
+  opacity: 0.75;
+}

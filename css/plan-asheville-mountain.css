@@ -1,0 +1,321 @@
+/**
+ * Plan: Asheville Mountain
+ * Slug: 3-story-open-mountain-house-floor-plan
+ * Body Class: .plan-3-story-open-mountain-house-floor-plan
+ *
+ * Design: Craftsman Mountain — dark forest green, antique gold, cream
+ * Fonts: DM Serif Display (display), Plus Jakarta Sans (body)
+ * Template: Claude.ai generated, converted for Genesis single-plans.php
+ */
+
+/* ── Google Fonts ── */
+.plan-3-story-open-mountain-house-floor-plan {
+  --mhp-font-display: 'DM Serif Display', Georgia, serif;
+  --mhp-font-body:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Color Tokens ── */
+.plan-3-story-open-mountain-house-floor-plan {
+  --mhp-color-primary:       #2C3E2D;
+  --mhp-color-primary-light: #3D5A3F;
+  --mhp-color-primary-dark:  #1A2A1B;
+  --mhp-color-accent:        #B8860B;
+  --mhp-color-accent-light:  #D4A843;
+  --mhp-color-accent-warm:   #C4913B;
+  --mhp-color-cream:         #FAF7F2;
+  --mhp-color-cream-dark:    #F0EBE3;
+  --mhp-color-stone:         #E8E2D8;
+  --mhp-color-stone-dark:    #D4CEC4;
+  --mhp-color-text:          #2B2B2B;
+  --mhp-color-text-secondary:#5A5A5A;
+  --mhp-color-text-light:    #8A8A8A;
+  --mhp-color-border:        #E0DAD0;
+  --mhp-color-success:       #3A7D44;
+}
+
+/* ── Page background ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-plan-wrap {
+  font-family: var(--mhp-font-body);
+  background: var(--mhp-color-cream);
+  color: var(--mhp-color-text);
+}
+
+/* ── Font load hint ── */
+.plan-3-story-open-mountain-house-floor-plan::before {
+  content: '';
+  font-family: 'DM Serif Display', Georgia, serif;
+  display: none;
+}
+
+/* ── Hero: clay → forest green ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-hero-badge {
+  background: var(--mhp-color-primary) !important;
+  color: #fff !important;
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-social-proof {
+  background: rgba(26, 42, 27, 0.75) !important;
+}
+
+/* ── Hero stat values ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-stat-value {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── Hero title ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-hero-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-hero-title em {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Stars ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-stars {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Price amount ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-price-amount {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── Breadcrumb link ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-breadcrumb a {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Plan number ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-plan-number {
+  color: var(--mhp-color-primary);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-plan-number::before {
+  background: var(--mhp-color-primary);
+}
+
+/* ── CTA Buttons ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-btn-primary {
+  background: var(--mhp-color-accent);
+  box-shadow: 0 4px 16px rgba(184, 134, 11, 0.3);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-btn-primary:hover {
+  background: var(--mhp-color-accent-warm);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-btn-sticky {
+  background: var(--mhp-color-accent);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-btn-sticky:hover {
+  background: var(--mhp-color-accent-warm);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-related-link {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Trust strip ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-trust-strip {
+  background: var(--mhp-color-primary-dark);
+  border-top: 2px solid var(--mhp-color-accent);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-ts-item svg {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Trust pills ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-trust-pill svg {
+  color: var(--mhp-color-success);
+}
+
+/* ── Section titles ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-section-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-section-title em {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Eyebrow / overline ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-eyebrow-text {
+  color: var(--mhp-color-accent);
+  letter-spacing: 0.14em;
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-eyebrow-line {
+  background: var(--mhp-color-accent);
+}
+
+/* ── Floor plan section ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-floor-section {
+  background: #FFFFFF;
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-floor-btn.active {
+  color: var(--mhp-color-accent);
+  border-bottom-color: var(--mhp-color-accent);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-floor-btn:hover {
+  color: var(--mhp-color-primary);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-room-name {
+  font-family: var(--mhp-font-display);
+}
+
+/* ── Feature section ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-features-section {
+  background: var(--mhp-color-cream);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-feature-icon {
+  background: var(--mhp-color-stone);
+  color: var(--mhp-color-primary);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-feature-card:hover {
+  background: #FFFFFF;
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-feature-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── Cost estimator ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-cost-section {
+  background: var(--mhp-color-primary-dark);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-cost-header .mhp-eyebrow-text {
+  color: var(--mhp-color-accent-light);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-cost-header .mhp-section-title em {
+  color: var(--mhp-color-accent-light);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-calc-range em {
+  color: var(--mhp-color-accent-light);
+}
+
+/* ── Modifications section ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-mod-section {
+  background: #FFFFFF;
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-mod-icon {
+  color: var(--mhp-color-accent);
+  background: var(--mhp-color-stone);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-mod-card:hover {
+  background: var(--mhp-color-cream);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-mod-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-mod-price {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Included section ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-included-section {
+  background: var(--mhp-color-cream);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-included-icon {
+  border-color: var(--mhp-color-stone);
+  color: var(--mhp-color-primary);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-included-title {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+
+/* ── FAQ section ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-faq-section {
+  background: var(--mhp-color-cream);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-faq-item {
+  background: var(--mhp-color-cream);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-faq-q:hover {
+  background: #FFFFFF;
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-faq-q-text {
+  font-family: var(--mhp-font-display);
+  color: var(--mhp-color-primary-dark);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-faq-chevron {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Related plans ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-related-section {
+  background: #FFFFFF;
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-related-card {
+  background: var(--mhp-color-cream);
+  border-color: var(--mhp-color-border);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-related-name {
+  font-family: var(--mhp-font-display);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-related-style {
+  color: var(--mhp-color-accent);
+}
+
+/* ── Social proof ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-proof-section {
+  background: #FFFFFF;
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-proof-location {
+  color: var(--mhp-color-accent);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-proof-quote {
+  font-family: var(--mhp-font-display);
+}
+
+/* ── Designer section ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-designer-section {
+  background: var(--mhp-color-primary-dark);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-designer-title {
+  color: var(--mhp-color-accent-light);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-designer-avatar {
+  background: linear-gradient(135deg, var(--mhp-color-accent), var(--mhp-color-accent-warm));
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-designer-cta {
+  border-color: rgba(184, 134, 11, 0.35);
+}
+.plan-3-story-open-mountain-house-floor-plan .mhp-designer-cta:hover {
+  border-color: var(--mhp-color-accent-light);
+}
+
+/* ── Sticky bar ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-sticky-price-main {
+  font-family: var(--mhp-font-display);
+}
+
+/* ── Quick specs bar (if rendered via Claude template) ── */
+.plan-3-story-open-mountain-house-floor-plan .quick-specs {
+  background: var(--mhp-color-primary);
+}
+.plan-3-story-open-mountain-house-floor-plan .quick-spec__value {
+  font-family: var(--mhp-font-display);
+}
+
+/* ── Hero content background ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-hero-content {
+  background: var(--mhp-color-cream);
+}
+
+/* ── Thumb active border ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-hero-thumb.active::after {
+  background: var(--mhp-color-accent);
+}
+
+/* ── Proof section ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-proof-location {
+  color: var(--mhp-color-primary);
+}
+
+/* ── Floor room feature ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-room-feature {
+  color: var(--mhp-color-success);
+}
+
+/* ── Note about this plan (mountain specific) ── */
+.plan-3-story-open-mountain-house-floor-plan .mhp-plan-wrap::before {
+  display: none; /* no decorative header stripe needed */
+}
