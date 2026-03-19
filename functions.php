@@ -485,4 +485,34 @@ function mhp_preload_lcp_image() {
 // ACF field registrations (price, price_cad, faqs, feature_bullets, gallery)
 require_once get_stylesheet_directory() . '/inc/acf-fields.php';
 
+// ---------------------------------------------------------------------------
+// Plan-Specific Page Templates
+// ---------------------------------------------------------------------------
+
+/**
+ * Register plan-specific templates so they appear in the template dropdown.
+ */
+add_filter( 'theme_page_templates', function( $templates ) {
+    $templates['single-plans-asheville-mountain.php']    = 'Plan - Asheville Mountain';
+    $templates['single-plans-blowing-rock-cottage.php']  = 'Plan - Blowing Rock Cottage';
+    $templates['single-plans-boulder-mountain-cabin.php'] = 'Plan - Boulder Mountain Cabin';
+    $templates['single-plans-carolina-farmhouse.php']    = 'Plan - Carolina Farmhouse';
+    $templates['single-plans-sunset-ridge.php']          = 'Plan - Sunset Ridge';
+    return $templates;
+} );
+
+/**
+ * Also expose to the plans CPT (post type = plans).
+ */
+add_filter( 'theme_templates', function( $templates, $theme, $post ) {
+    if ( $post && $post->post_type === 'plans' ) {
+        $templates['single-plans-asheville-mountain.php']    = 'Plan - Asheville Mountain';
+        $templates['single-plans-blowing-rock-cottage.php']  = 'Plan - Blowing Rock Cottage';
+        $templates['single-plans-boulder-mountain-cabin.php'] = 'Plan - Boulder Mountain Cabin';
+        $templates['single-plans-carolina-farmhouse.php']    = 'Plan - Carolina Farmhouse';
+        $templates['single-plans-sunset-ridge.php']          = 'Plan - Sunset Ridge';
+    }
+    return $templates;
+}, 10, 3 );
+
 
