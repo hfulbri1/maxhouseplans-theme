@@ -397,7 +397,7 @@ function mhp_asheville_loop() {
     $upper_floor         = $acf ? get_field( 'upper_floor',         $pid ) : '858';
     $lower_floor         = $acf ? get_field( 'lower_floor',         $pid ) : 'Unfinished';
     $bedrooms            = $acf ? get_field( 'bedrooms',            $pid ) : '4';
-    $bathrooms           = $acf ? get_field( 'bathrooms',           $pid ) : '4\xc2\xbd';
+    $bathrooms           = $acf ? get_field( 'bathrooms',           $pid ) : '4.5';
     $stories             = $acf ? get_field( 'stories',             $pid ) : '3';
     $width               = $acf ? get_field( 'width',               $pid ) : "59'";
     $depth               = $acf ? get_field( 'depth',               $pid ) : "60'";

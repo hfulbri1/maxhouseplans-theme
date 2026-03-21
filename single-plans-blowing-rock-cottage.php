@@ -395,7 +395,7 @@ function mhp_blowing_rock_loop() {
           <img src="<?php echo esc_url($hero_url); ?>" alt="<?php echo esc_attr($plan_name); ?> house plan — rustic small cabin with craftsman details, stone columns, covered front porch" id="brcMainImage" fetchpriority="high">
           <span class="brc-gallery__count">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-            25+ Photos
+            <?php echo count($gallery_images); ?>+ Photos
           </span>
         </div>
         <div class="brc-gallery__thumbs">
