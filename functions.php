@@ -163,6 +163,13 @@ function mhp_enqueue_assets() {
             array( 'mhp-google-fonts' ),
             file_exists( $plan_css_path ) ? filemtime( $plan_css_path ) : '1.0'
         );
+
+        wp_enqueue_style(
+            'mhp-plan-v4',
+            get_stylesheet_directory_uri() . '/css/mhp-plan-v4.css',
+            array( 'mhp-google-fonts' ),
+            filemtime( get_stylesheet_directory() . '/css/mhp-plan-v4.css' )
+        );
     }
 
     // Sticky CTA JS â€" plan pages only
