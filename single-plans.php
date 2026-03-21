@@ -1,6 +1,6 @@
 <?php
 /**
- * Universal Single Plan Template (v2)
+ * Universal Single Plan Template (v3 — 2026)
  *
  * @package MaxHousePlans
  */
@@ -17,61 +17,82 @@ add_filter('genesis_pre_get_option_site_layout', function ($layout) {
     return $layout;
 });
 
+if (!function_exists('mhp_get_plan_field')) {
+    /**
+     * Safe ACF getter with fallback.
+     *
+     * @param string $key     Field key.
+     * @param int    $post_id Post ID.
+     * @param mixed  $default Default.
+     *
+     * @return mixed
+     */
+    function mhp_get_plan_field($key, $post_id, $default = '') {
+        if (function_exists('get_field')) {
+            $value = get_field($key, $post_id);
+            if ($value !== null && $value !== false && $value !== '') {
+                return $value;
+            }
+        }
+
+        return $default;
+    }
+}
+
 if (!function_exists('mhp_plan_detect_style_category')) {
     /**
      * Detect style category + labels from style string.
      *
      * @param string $style Style field.
+     *
      * @return array<string,string>
      */
     function mhp_plan_detect_style_category($style) {
         $style_lower = strtolower((string) $style);
-
         if (strpos($style_lower, 'mountain') !== false || strpos($style_lower, 'lake') !== false) {
             return array(
-                'style_cat'      => 'mountain',
-                'badge_text'     => 'Mountain House Plan',
-                'breadcrumb_cat' => 'Mountain House Plans',
-                'breadcrumb_url' => home_url('/home-plans/mountain-house-plans/'),
+                'style_cat' => 'mountain',
+                'badge'     => 'Mountain House Plan',
+                'bc_cat'    => 'Mountain House Plans',
+                'bc_url'    => home_url('/home-plans/mountain-house-plans/'),
             );
         }
-
         if (strpos($style_lower, 'farmhouse') !== false || strpos($style_lower, 'southern') !== false || strpos($style_lower, 'country') !== false) {
             return array(
-                'style_cat'      => 'farmhouse',
-                'badge_text'     => 'Farmhouse Plan',
-                'breadcrumb_cat' => 'Farmhouse House Plans',
-                'breadcrumb_url' => home_url('/home-plans/farmhouse-house-plans/'),
+                'style_cat' => 'farmhouse',
+                'badge'     => 'Farmhouse Plan',
+                'bc_cat'    => 'Farmhouse House Plans',
+                'bc_url'    => home_url('/home-plans/farmhouse-house-plans/'),
             );
         }
-
         if (strpos($style_lower, 'cottage') !== false || strpos($style_lower, 'cabin') !== false || strpos($style_lower, 'bungalow') !== false) {
             return array(
-                'style_cat'      => 'cottage',
-                'badge_text'     => 'Cottage Plan',
-                'breadcrumb_cat' => 'Cottage House Plans',
-                'breadcrumb_url' => home_url('/home-plans/cottage-house-plans/'),
+                'style_cat' => 'cottage',
+                'badge'     => 'Cottage Plan',
+                'bc_cat'    => 'Cottage House Plans',
+                'bc_url'    => home_url('/home-plans/cottage-house-plans/'),
             );
         }
 
         return array(
-            'style_cat'      => 'craftsman',
-            'badge_text'     => 'Craftsman Plan',
-            'breadcrumb_cat' => 'House Plans',
-            'breadcrumb_url' => home_url('/house-plans/'),
+            'style_cat' => 'craftsman',
+            'badge'     => 'Craftsman Plan',
+            'bc_cat'    => 'House Plans',
+            'bc_url'    => home_url('/house-plans/'),
         );
     }
 }
 
-if (!function_exists('mhp_plan_money')) {
+if (!function_exists('mhp_money_0')) {
     /**
-     * Format money.
+     * Format no-decimal USD.
      *
      * @param float $value Value.
+     *
      * @return string
      */
-    function mhp_plan_money($value) {
-        return '$' . number_format((float) $value, 2);
+    function mhp_money_0($value) {
+        return '$' . number_format((float) $value, 0, '.', ',');
     }
 }
 
@@ -84,50 +105,24 @@ if (!function_exists('mhp_plan_schema_output')) {
             return;
         }
 
-        $post_id       = get_the_ID();
-        $plan_name     = get_field('plan_name', $post_id) ?: get_the_title($post_id);
-        $style         = (string) get_field('style', $post_id);
-        $style_meta    = mhp_plan_detect_style_category($style);
-        $price_pdf     = (float) get_field('price', $post_id);
-        $price_cad     = $price_pdf > 0 ? round($price_pdf * 1.26, 2) : 0;
-        $bedrooms      = (string) get_field('bedrooms', $post_id);
-        $bathrooms     = (string) get_field('bathrooms', $post_id);
-        $sqft          = (string) get_field('total_living_area', $post_id);
-        $faqs          = get_field('faqs', $post_id);
-        $desc          = wp_strip_all_tags((string) get_field('plan_description', $post_id));
-        $permalink     = get_permalink($post_id);
-        $image         = get_the_post_thumbnail_url($post_id, 'large');
+        $post_id   = get_the_ID();
+        $plan_name = (string) mhp_get_plan_field('plan_name', $post_id, get_the_title($post_id));
+        $style     = (string) mhp_get_plan_field('style', $post_id, '');
+        $meta      = mhp_plan_detect_style_category($style);
 
+        $price     = mhp_get_plan_field('price', $post_id, 1195);
+        $price_num = is_numeric($price) ? (float) $price : 1195;
+
+        $sqft      = (string) mhp_get_plan_field('total_living_area', $post_id, '');
+        $beds      = (string) mhp_get_plan_field('bedrooms', $post_id, '');
+        $baths     = (string) mhp_get_plan_field('bathrooms', $post_id, '');
+        $desc_raw  = (string) mhp_get_plan_field('plan_description', $post_id, '');
+        $desc      = wp_strip_all_tags($desc_raw);
         if ($desc === '') {
-            $desc = sprintf(
-                '%s by Max Fulbright is a %s home plan engineered to eliminate wasted space and reduce construction costs.',
-                $plan_name,
-                $style !== '' ? $style : 'custom'
-            );
+            $desc = sprintf('%s is a builder-minded %s plan designed by Max Fulbright to reduce wasted space and build cost.', $plan_name, $style !== '' ? $style : 'house');
         }
 
-        $offers = array();
-        if ($price_pdf > 0) {
-            $offers[] = array(
-                '@type'         => 'Offer',
-                'name'          => 'PDF Plan Set',
-                'priceCurrency' => 'USD',
-                'price'         => number_format($price_pdf, 2, '.', ''),
-                'availability'  => 'https://schema.org/InStock',
-                'url'           => $permalink,
-            );
-        }
-        if ($price_cad > 0) {
-            $offers[] = array(
-                '@type'         => 'Offer',
-                'name'          => 'CAD + PDF Plan Set',
-                'priceCurrency' => 'USD',
-                'price'         => number_format($price_cad, 2, '.', ''),
-                'availability'  => 'https://schema.org/InStock',
-                'url'           => $permalink,
-            );
-        }
-
+        $faqs = mhp_get_plan_field('faqs', $post_id, array());
         $faq_entities = array();
         if (is_array($faqs)) {
             foreach ($faqs as $faq) {
@@ -137,20 +132,23 @@ if (!function_exists('mhp_plan_schema_output')) {
                     continue;
                 }
                 $faq_entities[] = array(
-                    '@type'          => 'Question',
-                    'name'           => wp_strip_all_tags($q),
-                    'acceptedAnswer' => array('@type' => 'Answer', 'text' => wp_kses_post($a)),
+                    '@type' => 'Question',
+                    'name'  => wp_strip_all_tags($q),
+                    'acceptedAnswer' => array(
+                        '@type' => 'Answer',
+                        'text'  => wp_strip_all_tags($a),
+                    ),
                 );
             }
         }
 
         if (empty($faq_entities)) {
             $faq_entities = array(
-                array('@type' => 'Question', 'name' => 'What is included in my plan set?', 'acceptedAnswer' => array('@type' => 'Answer', 'text' => 'Typical sets include floor plans, elevations, foundation, roof plan, sections, and key construction details.')),
-                array('@type' => 'Question', 'name' => 'Can I modify this plan?', 'acceptedAnswer' => array('@type' => 'Answer', 'text' => 'Yes. We can make changes for your lot, local code, and lifestyle priorities.')),
-                array('@type' => 'Question', 'name' => 'How is the plan delivered?', 'acceptedAnswer' => array('@type' => 'Answer', 'text' => 'Digital plans are delivered after checkout confirmation.')),
-                array('@type' => 'Question', 'name' => 'Do I need local engineering?', 'acceptedAnswer' => array('@type' => 'Answer', 'text' => 'Many jurisdictions require local engineering review. Confirm with your building department.')),
-                array('@type' => 'Question', 'name' => 'Do you offer build support?', 'acceptedAnswer' => array('@type' => 'Answer', 'text' => 'Yes. We provide plan clarification and support through permitting and construction.')),
+                array('@type' => 'Question', 'name' => 'What is included in this plan package?', 'acceptedAnswer' => array('@type' => 'Answer', 'text' => 'Each plan set includes core construction drawings such as floor plans, elevations, foundation details, and roof information.')),
+                array('@type' => 'Question', 'name' => 'Can this plan be modified?', 'acceptedAnswer' => array('@type' => 'Answer', 'text' => 'Yes. We provide in-house modification services to tailor the plan to your lot, lifestyle, and local requirements.')),
+                array('@type' => 'Question', 'name' => 'How do I receive my plan after purchase?', 'acceptedAnswer' => array('@type' => 'Answer', 'text' => 'Digital plan files are delivered after checkout confirmation.')),
+                array('@type' => 'Question', 'name' => 'Do I need local engineering for permits?', 'acceptedAnswer' => array('@type' => 'Answer', 'text' => 'Permit requirements vary by jurisdiction. Please confirm requirements with your local building department.')),
+                array('@type' => 'Question', 'name' => 'Do you provide support during construction?', 'acceptedAnswer' => array('@type' => 'Answer', 'text' => 'Yes. Our team supports clients through permitting questions and build-stage clarifications.')),
             );
         }
 
@@ -159,31 +157,34 @@ if (!function_exists('mhp_plan_schema_output')) {
             '@type'    => 'Product',
             'name'     => $plan_name,
             'description' => $desc,
-            'image'    => $image ? array($image) : array(),
-            'url'      => $permalink,
+            'url'      => get_permalink($post_id),
+            'image'    => get_the_post_thumbnail_url($post_id, 'large') ? array(get_the_post_thumbnail_url($post_id, 'large')) : array(),
             'brand'    => array('@type' => 'Brand', 'name' => 'MaxHousePlans'),
-            'offers'   => $offers,
+            'offers'   => array(
+                array('@type' => 'Offer', 'name' => 'PDF Plan Set', 'priceCurrency' => 'USD', 'price' => number_format($price_num, 2, '.', ''), 'availability' => 'https://schema.org/InStock', 'url' => get_permalink($post_id)),
+                array('@type' => 'Offer', 'name' => 'CAD + PDF Plan Set', 'priceCurrency' => 'USD', 'price' => number_format($price_num * 1.26, 2, '.', ''), 'availability' => 'https://schema.org/InStock', 'url' => get_permalink($post_id)),
+            ),
             'additionalProperty' => array_filter(array(
                 $sqft !== '' ? array('@type' => 'PropertyValue', 'name' => 'Heated Sq Ft', 'value' => $sqft) : null,
-                $bedrooms !== '' ? array('@type' => 'PropertyValue', 'name' => 'Bedrooms', 'value' => $bedrooms) : null,
-                $bathrooms !== '' ? array('@type' => 'PropertyValue', 'name' => 'Bathrooms', 'value' => $bathrooms) : null,
+                $beds !== '' ? array('@type' => 'PropertyValue', 'name' => 'Bedrooms', 'value' => $beds) : null,
+                $baths !== '' ? array('@type' => 'PropertyValue', 'name' => 'Bathrooms', 'value' => $baths) : null,
             )),
         );
 
         $schema_breadcrumb = array(
             '@context' => 'https://schema.org',
-            '@type'    => 'BreadcrumbList',
+            '@type' => 'BreadcrumbList',
             'itemListElement' => array(
                 array('@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url('/')),
                 array('@type' => 'ListItem', 'position' => 2, 'name' => 'House Plans', 'item' => home_url('/house-plans/')),
-                array('@type' => 'ListItem', 'position' => 3, 'name' => $style_meta['breadcrumb_cat'], 'item' => $style_meta['breadcrumb_url']),
-                array('@type' => 'ListItem', 'position' => 4, 'name' => $plan_name, 'item' => $permalink),
+                array('@type' => 'ListItem', 'position' => 3, 'name' => $meta['bc_cat'], 'item' => $meta['bc_url']),
+                array('@type' => 'ListItem', 'position' => 4, 'name' => $plan_name, 'item' => get_permalink($post_id)),
             ),
         );
 
         $schema_faq = array(
-            '@context'   => 'https://schema.org',
-            '@type'      => 'FAQPage',
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
             'mainEntity' => $faq_entities,
         );
 
@@ -197,9 +198,9 @@ add_action('wp_head', 'mhp_plan_schema_output', 40);
 remove_action('genesis_loop', 'genesis_do_loop');
 
 /**
- * Render universal single plan template.
+ * Render plan template.
  */
-function mhp_render_single_plan_v2() {
+function mhp_render_single_plan_v3() {
     if (!have_posts()) {
         return;
     }
@@ -209,102 +210,89 @@ function mhp_render_single_plan_v2() {
 
         $post_id = get_the_ID();
 
-        $plan_name        = get_field('plan_name', $post_id) ?: get_the_title($post_id);
-        $total_living     = (string) get_field('total_living_area', $post_id);
-        $main_floor       = (string) get_field('main_floor', $post_id);
-        $upper_floor      = (string) get_field('upper_floor', $post_id);
-        $lower_floor      = (string) get_field('lower_floor', $post_id);
-        $bedrooms         = (string) get_field('bedrooms', $post_id);
-        $bathrooms        = (string) get_field('bathrooms', $post_id);
-        $stories          = (string) get_field('stories', $post_id);
-        $width            = (string) get_field('width', $post_id);
-        $depth            = (string) get_field('depth', $post_id);
-        $garage           = (string) get_field('garage', $post_id);
-        $style            = (string) get_field('style', $post_id);
-        $outdoor          = (string) get_field('outdoor', $post_id);
-        $roof             = (string) get_field('roof', $post_id);
-        $ceiling          = (string) get_field('ceiling', $post_id);
-        $exterior         = (string) get_field('exterior', $post_id);
-        $additional_rooms = (string) get_field('additional_rooms', $post_id);
-        $other_features   = (string) get_field('other_features', $post_id);
-        $lot_style        = (string) get_field('lot_style', $post_id);
-        $plan_description = (string) get_field('plan_description', $post_id);
-        $floor_plans      = (string) get_field('floor_plans', $post_id);
-        $paypal           = (string) get_field('paypal', $post_id);
-        $base_price       = (float) get_field('price', $post_id);
-        $related_plans    = get_field('related_plans', $post_id);
-        $faqs             = get_field('faqs', $post_id);
+        $plan_name        = (string) mhp_get_plan_field('plan_name', $post_id, get_the_title($post_id));
+        $total_living     = (string) mhp_get_plan_field('total_living_area', $post_id, '');
+        $main_floor       = (string) mhp_get_plan_field('main_floor', $post_id, '');
+        $upper_floor      = (string) mhp_get_plan_field('upper_floor', $post_id, '');
+        $lower_floor      = (string) mhp_get_plan_field('lower_floor', $post_id, '');
+        $bedrooms         = (string) mhp_get_plan_field('bedrooms', $post_id, '');
+        $bathrooms        = (string) mhp_get_plan_field('bathrooms', $post_id, '');
+        $stories          = (string) mhp_get_plan_field('stories', $post_id, '');
+        $width            = (string) mhp_get_plan_field('width', $post_id, '');
+        $depth            = (string) mhp_get_plan_field('depth', $post_id, '');
+        $garage           = (string) mhp_get_plan_field('garage', $post_id, '');
+        $style            = (string) mhp_get_plan_field('style', $post_id, '');
+        $outdoor          = (string) mhp_get_plan_field('outdoor', $post_id, '');
+        $roof             = (string) mhp_get_plan_field('roof', $post_id, '');
+        $ceiling          = (string) mhp_get_plan_field('ceiling', $post_id, '');
+        $exterior         = (string) mhp_get_plan_field('exterior', $post_id, '');
+        $additional_rooms = (string) mhp_get_plan_field('additional_rooms', $post_id, '');
+        $other_features   = (string) mhp_get_plan_field('other_features', $post_id, '');
+        $lot_style        = (string) mhp_get_plan_field('lot_style', $post_id, '');
+        $plan_description = (string) mhp_get_plan_field('plan_description', $post_id, '');
+        $floor_plans      = (string) mhp_get_plan_field('floor_plans', $post_id, '');
+        $paypal           = (string) mhp_get_plan_field('paypal', $post_id, '');
+        $price            = mhp_get_plan_field('price', $post_id, 1195);
+        $related_plans    = mhp_get_plan_field('related_plans', $post_id, array());
+        $faqs             = mhp_get_plan_field('faqs', $post_id, array());
 
-        $style_meta       = mhp_plan_detect_style_category($style);
-        $style_cat        = $style_meta['style_cat'];
-        $badge_text       = $style_meta['badge_text'];
-        $breadcrumb_cat   = $style_meta['breadcrumb_cat'];
-        $breadcrumb_url   = $style_meta['breadcrumb_url'];
+        $meta      = mhp_plan_detect_style_category($style);
+        $style_cat = $meta['style_cat'];
+        $badge     = $meta['badge'];
+        $bc_cat    = $meta['bc_cat'];
+        $bc_url    = $meta['bc_url'];
 
-        $pdf_price        = $base_price > 0 ? $base_price : 0;
-        $cad_price        = $pdf_price > 0 ? round($pdf_price * 1.26, 2) : 0;
+        $price_num = is_numeric($price) ? (float) $price : 1195;
+        $price_fmt = '$' . number_format($price_num, 0, '.', ',');
+        $cad_price = '$' . number_format($price_num * 1.26, 0, '.', ',');
 
-        $sqft_display     = $total_living !== '' ? number_format((float) $total_living) : '';
-        $main_display     = $main_floor !== '' ? number_format((float) $main_floor) : '';
-        $upper_display    = $upper_floor !== '' ? number_format((float) $upper_floor) : '';
-        $lower_display    = $lower_floor !== '' ? number_format((float) $lower_floor) : '';
+        $paypal_url = '';
+        if ($paypal && preg_match('/name=["\']hosted_button_id["\']\s+value=["\']([^"\']+)["\']/', $paypal, $m)) {
+            $paypal_url = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=' . urlencode($m[1]);
+        }
+        $buy_href = $paypal_url ?: (get_permalink() . '#contact');
 
-        $hosted_button_id = '';
-        if ($paypal !== '' && preg_match('/name=["\']hosted_button_id["\']\s+value=["\']([^"\']+)["\']/', $paypal, $m)) {
-            $hosted_button_id = $m[1];
+        $sqft_int      = (int) preg_replace('/[^0-9]/', '', $total_living);
+        $sqft_display  = $sqft_int > 0 ? number_format($sqft_int) : '—';
+        $main_display  = is_numeric($main_floor) ? number_format((float) $main_floor) : ($main_floor !== '' ? $main_floor : '—');
+        $upper_display = is_numeric($upper_floor) ? number_format((float) $upper_floor) : $upper_floor;
+        $lower_display = is_numeric($lower_floor) ? number_format((float) $lower_floor) : $lower_floor;
+
+        $post_content = (string) get_post_field('post_content', $post_id);
+        $gallery_html = '';
+        if (preg_match('/\[gallery[^\]]*\]/', $post_content, $gallery_match)) {
+            $gallery_html = do_shortcode($gallery_match[0]);
         }
 
-        $buy_url = !empty($hosted_button_id) ? 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=' . rawurlencode($hosted_button_id) : home_url('/contact/');
+        $foundation = $lower_floor !== '' ? 'Walkout Basement' : 'Slab / Crawl (per local requirements)';
 
-        $post_content    = (string) get_post_field('post_content', $post_id);
-        $gallery_markup  = '';
-        if (shortcode_exists('gallery') && preg_match('/\[gallery[^\]]*\]/', $post_content, $gallery_match)) {
-            $gallery_markup = do_shortcode($gallery_match[0]);
+        if (!is_array($faqs) || empty($faqs)) {
+            $faqs = array(
+                array('question' => 'What files do I receive after purchase?', 'answer' => 'Your plan package includes the core drawing set needed for pricing and construction planning, including floor plans, elevations, foundation information, and roof details.'),
+                array('question' => 'Can this plan be modified for my family or lot?', 'answer' => 'Yes. We provide in-house modification services and can tailor this design to your lot constraints, local preferences, and lifestyle needs.'),
+                array('question' => 'How long does delivery take?', 'answer' => 'Digital plans are delivered after payment confirmation. If you need help selecting the right format, we can guide you before purchase.'),
+                array('question' => 'Will this plan work for permitting in my area?', 'answer' => 'Building requirements vary by jurisdiction. We recommend confirming local requirements early and coordinating with your local engineer where required.'),
+                array('question' => 'Do you offer support during construction?', 'answer' => 'Yes. We answer plan questions and support you through permitting and build-stage clarifications.'),
+            );
         }
 
         if ($plan_description === '') {
-            $plan_description = wp_kses_post(
-                '<p>' . esc_html($plan_name) . ' was designed by Max Fulbright with one goal: remove wasted space and simplify construction decisions from day one. The footprint is efficient, the circulation is intentional, and every square foot has a job.</p>' .
-                '<p>This ' . esc_html($style !== '' ? $style : ucfirst($style_cat)) . ' plan offers approximately ' . esc_html($sqft_display !== '' ? $sqft_display : 'well-balanced') . ' square feet with ' . esc_html($bedrooms !== '' ? $bedrooms : 'multiple') . ' bedrooms and ' . esc_html($bathrooms !== '' ? $bathrooms : 'well-appointed') . ' baths. It is created for families who want high design value without overbuilding.</p>' .
-                '<p>From first sketch to permit set, the design reflects builder logic: cleaner spans, practical material use, and details that support smoother field execution. This is not catalog filler. It is build-minded architecture.</p>' .
-                '<p>Engineer turned builder turned designer. Every plan designed to save wasted space and cut construction costs. A family business that cares about your home from start to finish. Real people. Real plans.</p>'
-            );
-        }
-
-        $highlights = array();
-        if ($style !== '') {
-            $highlights[] = array('label' => 'Architectural Style', 'value' => $style);
-        }
-        if ($outdoor !== '') {
-            $highlights[] = array('label' => 'Outdoor Living', 'value' => $outdoor);
-        }
-        if ($ceiling !== '') {
-            $highlights[] = array('label' => 'Ceiling Strategy', 'value' => $ceiling);
-        }
-        if ($lot_style !== '') {
-            $highlights[] = array('label' => 'Lot Compatibility', 'value' => $lot_style);
-        }
-        if ($additional_rooms !== '') {
-            $highlights[] = array('label' => 'Additional Rooms', 'value' => $additional_rooms);
-        }
-        $highlights[] = array('label' => 'Garage', 'value' => $garage !== '' ? $garage : 'No garage');
-        $highlights = array_slice($highlights, 0, 6);
-
-        if (empty($faqs) || !is_array($faqs)) {
-            $faqs = array(
-                array('question' => 'What is included in my plan package?', 'answer' => 'Each plan package typically includes floor plans, elevations, foundation information, roof plan, sections, and major construction notes.'),
-                array('question' => 'Can this plan be modified for my lot?', 'answer' => 'Yes. Modifications are available for layout, dimensions, and exterior details so the home better fits your site and goals.'),
-                array('question' => 'How quickly are plans delivered?', 'answer' => 'Digital plans are delivered after checkout verification. Timing is usually fast, with support available if you need help.'),
-                array('question' => 'Will this work with local permitting?', 'answer' => 'Most jurisdictions require local review. Always verify specific permit requirements with your local authority.'),
-                array('question' => 'Do you provide support after purchase?', 'answer' => 'Yes. We support you through modifications, permitting clarification, and build-stage plan questions.'),
-            );
+            $style_human = $style !== '' ? $style : ucfirst($style_cat);
+            $plan_description =
+                '<p>' . esc_html($plan_name) . ' is a builder-minded ' . esc_html($style_human) . ' home plan designed to feel larger than its footprint. At approximately ' . esc_html($sqft_display) . ' heated square feet, every area was shaped to reduce wasted space and keep construction straightforward.</p>' .
+                '<p>The main level is organized for daily life: intuitive circulation, practical sightlines, and living spaces that connect naturally. With ' . esc_html($bedrooms !== '' ? $bedrooms : 'well-planned') . ' bedrooms and ' . esc_html($bathrooms !== '' ? $bathrooms : 'comfortable') . ' baths, the layout balances privacy and shared family space.</p>' .
+                '<p>Signature details like ' . esc_html($outdoor !== '' ? $outdoor : 'purposeful outdoor living') . ', ' . esc_html($ceiling !== '' ? $ceiling : 'well-proportioned ceilings') . ', and ' . esc_html($additional_rooms !== '' ? $additional_rooms : 'flexible bonus spaces') . ' bring personality while staying practical for real-world building and long-term value.</p>' .
+                '<p>This plan is ideal for homeowners looking for a home that feels custom without unnecessary complexity—especially on ' . esc_html($lot_style !== '' ? $lot_style : 'a variety of lot conditions') . '. It is architecture shaped by hands-on building experience, not catalog filler.</p>';
         }
 
         $floor_images = array();
         foreach (array('floor_plan_1', 'floor_plan_2', 'floor_plan_3') as $field_key) {
-            $img = get_field($field_key, $post_id);
+            $img = mhp_get_plan_field($field_key, $post_id, null);
             if (is_array($img) && !empty($img['url'])) {
-                $floor_images[] = array('url' => $img['url'], 'alt' => !empty($img['alt']) ? $img['alt'] : $plan_name . ' floor plan');
+                $floor_images[] = array(
+                    'url' => (string) $img['url'],
+                    'alt' => !empty($img['alt']) ? (string) $img['alt'] : ($plan_name . ' floor plan'),
+                );
             } elseif (is_numeric($img)) {
                 $url = wp_get_attachment_image_url((int) $img, 'large');
                 if ($url) {
@@ -321,7 +309,7 @@ function mhp_render_single_plan_v2() {
                     <span>›</span>
                     <a href="<?php echo esc_url(home_url('/house-plans/')); ?>">House Plans</a>
                     <span>›</span>
-                    <a href="<?php echo esc_url($breadcrumb_url); ?>"><?php echo esc_html($breadcrumb_cat); ?></a>
+                    <a href="<?php echo esc_url($bc_url); ?>"><?php echo esc_html($bc_cat); ?></a>
                     <span>›</span>
                     <span aria-current="page"><?php echo esc_html($plan_name); ?></span>
                 </nav>
@@ -330,13 +318,20 @@ function mhp_render_single_plan_v2() {
                     <div class="mhp-plan-hero__grid">
                         <div class="mhp-hero-image">
                             <div class="mhp-hero-image__main">
-                                <?php if (has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail('full', array('loading' => 'eager', 'fetchpriority' => 'high', 'decoding' => 'async', 'alt' => esc_attr($plan_name))); ?>
-                                <?php endif; ?>
-                                <div class="mhp-hero-image__badge"><?php echo esc_html($badge_text); ?></div>
+                                <?php
+                                if (has_post_thumbnail()) {
+                                    the_post_thumbnail('full', array(
+                                        'loading' => 'eager',
+                                        'fetchpriority' => 'high',
+                                        'decoding' => 'async',
+                                        'alt' => esc_attr($plan_name . ' house plan — ' . ($style !== '' ? $style : $badge)),
+                                    ));
+                                }
+                                ?>
+                                <div class="mhp-hero-image__badge"><?php echo esc_html($badge); ?></div>
                             </div>
 
-                            <?php if ($gallery_markup !== '') : ?>
+                            <?php if ($gallery_html !== '') : ?>
                                 <div class="mhp-gallery-grid">
                                     <?php echo do_shortcode($gallery_match[0]); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 </div>
@@ -346,68 +341,69 @@ function mhp_render_single_plan_v2() {
                         <aside class="mhp-purchase-card">
                             <header class="mhp-purchase-card__header">
                                 <h1 class="mhp-purchase-card__plan-name"><?php echo esc_html($plan_name); ?></h1>
-                                <p class="mhp-purchase-card__style"><?php echo esc_html($style !== '' ? $style : $badge_text); ?></p>
+                                <p class="mhp-purchase-card__style"><?php echo esc_html($style !== '' ? $style : $badge); ?></p>
 
                                 <div class="mhp-purchase-card__specs">
-                                    <div class="mhp-spec-cell"><div class="mhp-spec-cell__value"><?php echo esc_html($sqft_display !== '' ? $sqft_display : '—'); ?></div><div class="mhp-spec-cell__label">Sq Ft</div></div>
+                                    <div class="mhp-spec-cell mhp-spec-cell--hero">
+                                        <div class="mhp-spec-cell__value"><?php echo esc_html($sqft_display); ?></div>
+                                        <div class="mhp-spec-cell__label">Total Living Area</div>
+                                    </div>
                                     <div class="mhp-spec-cell"><div class="mhp-spec-cell__value"><?php echo esc_html($bedrooms !== '' ? $bedrooms : '—'); ?></div><div class="mhp-spec-cell__label">Bedrooms</div></div>
                                     <div class="mhp-spec-cell"><div class="mhp-spec-cell__value"><?php echo esc_html($bathrooms !== '' ? $bathrooms : '—'); ?></div><div class="mhp-spec-cell__label">Bathrooms</div></div>
                                     <div class="mhp-spec-cell"><div class="mhp-spec-cell__value"><?php echo esc_html($stories !== '' ? $stories : '—'); ?></div><div class="mhp-spec-cell__label">Stories</div></div>
+                                    <div class="mhp-spec-cell"><div class="mhp-spec-cell__value"><?php echo esc_html(($width !== '' && $depth !== '') ? ($width . ' × ' . $depth) : ($garage !== '' ? $garage : '—')); ?></div><div class="mhp-spec-cell__label"><?php echo esc_html(($width !== '' && $depth !== '') ? 'Width × Depth' : 'Garage'); ?></div></div>
                                 </div>
                             </header>
 
                             <div class="mhp-purchase-card__body">
-                                <label class="mhp-price-option mhp-selected" data-option="pdf">
-                                    <input type="radio" name="mhp-plan-format" value="pdf" checked>
-                                    <span class="mhp-price-option__info"><strong class="mhp-price-option__format">PDF Plan Set</strong><small class="mhp-price-option__desc">Selected by default</small></span>
-                                    <span class="mhp-price-option__price"><?php echo $pdf_price > 0 ? esc_html(mhp_plan_money($pdf_price)) : 'Call'; ?></span>
-                                </label>
-                                <label class="mhp-price-option" data-option="cad">
-                                    <input type="radio" name="mhp-plan-format" value="cad">
-                                    <span class="mhp-price-option__info"><strong class="mhp-price-option__format">CAD + PDF Set</strong><small class="mhp-price-option__desc">1.26× PDF Price</small></span>
-                                    <span class="mhp-price-option__price"><?php echo $cad_price > 0 ? esc_html(mhp_plan_money($cad_price)) : 'Call'; ?></span>
-                                </label>
-
-                                <?php if (!empty($hosted_button_id)) : ?>
-                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                                        <input type="hidden" name="cmd" value="_s-xclick">
-                                        <input type="hidden" name="hosted_button_id" value="<?php echo esc_attr($hosted_button_id); ?>">
-                                        <input type="hidden" name="on0" value="Plan Format">
-                                        <input type="hidden" id="mhp-paypal-format" name="os0" value="PDF Plan Set">
-                                        <button class="mhp-btn-buy" type="submit">Buy This Plan</button>
-                                    </form>
-                                <?php else : ?>
-                                    <a class="mhp-btn-buy" href="<?php echo esc_url(home_url('/contact/')); ?>">Contact to Purchase</a>
-                                <?php endif; ?>
-
-                                <div class="mhp-trust-row">
-                                    <span class="mhp-trust-item">Secure Checkout</span>
-                                    <span class="mhp-trust-item">Instant Download</span>
+                                <div class="mhp-price-option mhp-selected" id="mhpOptPdf" data-format="pdf">
+                                    <input type="radio" name="mhpFmt" checked>
+                                    <span class="mhp-price-option__info"><strong class="mhp-price-option__format">PDF Plan Set</strong><small class="mhp-price-option__desc">Instant digital delivery</small></span>
+                                    <span class="mhp-price-option__price"><?php echo esc_html($price_fmt); ?></span>
+                                </div>
+                                <div class="mhp-price-option" id="mhpOptCad" data-format="cad">
+                                    <input type="radio" name="mhpFmt">
+                                    <span class="mhp-price-option__info"><strong class="mhp-price-option__format">CAD + PDF Set</strong><small class="mhp-price-option__desc">Editable source + PDF</small></span>
+                                    <span class="mhp-price-option__price"><?php echo esc_html($cad_price); ?></span>
                                 </div>
 
-                                <p class="mhp-modify-link"><a href="<?php echo esc_url(home_url('/contact/')); ?>">Need changes? Request a modification →</a></p>
+                                <a class="mhp-btn-buy" href="<?php echo esc_url($buy_href); ?>">Purchase This Plan</a>
+
+                                <div class="mhp-trust-row">
+                                    <span class="mhp-trust-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l8 3v6c0 5.25-3.44 9.56-8 11-4.56-1.44-8-5.75-8-11V5l8-3z" stroke="currentColor" stroke-width="1.8"/></svg>Secure Checkout</span>
+                                    <span class="mhp-trust-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 7L9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Instant Download</span>
+                                </div>
                             </div>
+
+                            <footer class="mhp-purchase-card__footer">
+                                <a href="<?php echo esc_url(home_url('/contact/')); ?>">Need changes? Request a modification →</a>
+                            </footer>
                         </aside>
                     </div>
                 </section>
             </div>
 
-            <section class="mhp-authority-strip" aria-label="Max Fulbright Authority Strip">
+            <section class="mhp-authority-strip mhp-reveal" aria-label="Max Fulbright Authority">
                 <div class="mhp-container">
                     <div class="mhp-authority-strip__grid">
                         <div class="mhp-authority-strip__col">
                             <h3>Max Fulbright</h3>
-                            <p>Engineer · Builder · Designer | 25+ Years Experience</p>
+                            <p class="mhp-authority-strip__eyebrow">Engineer · Builder · Designer</p>
+                            <p class="mhp-authority-strip__meta">25+ Years Experience</p>
+                            <div class="mhp-authority-strip__line"></div>
+                            <p>Every plan was designed with hands-on building knowledge — to save space, reduce construction costs, and work in the real world.</p>
                         </div>
                         <div class="mhp-authority-strip__col">
-                            <h3>The MaxHousePlans Difference</h3>
-                            <p>Every plan designed to save wasted space and cut construction costs. Family business. Real people. Real plans.</p>
+                            <p class="mhp-authority-strip__eyebrow">Why We’re Different</p>
+                            <blockquote>“Not a plan mill. Not a catalog. A real designer who has built what he draws. A family business that answers the phone.”</blockquote>
+                            <p>Every plan in our collection came from a real design problem: a specific lot, a specific family, a specific budget. That’s what you’re buying — not a generic stock plan, but 25 years of building experience.</p>
                         </div>
                         <div class="mhp-authority-strip__col mhp-authority-process">
-                            <span>1. Purchase</span>
-                            <span>2. Modifications</span>
-                            <span>3. Permitting Support</span>
-                            <span>4. Build Support</span>
+                            <p class="mhp-authority-strip__eyebrow">After You Purchase</p>
+                            <span><strong>Purchase Your Plan</strong> — PDF or CAD delivered instantly</span>
+                            <span><strong>Request Modifications</strong> — we handle changes in-house</span>
+                            <span><strong>Permitting Support</strong> — we answer your questions</span>
+                            <span><strong>Build Support</strong> — we’re here during construction</span>
                         </div>
                     </div>
                 </div>
@@ -416,128 +412,165 @@ function mhp_render_single_plan_v2() {
             <section class="mhp-quick-specs-bar">
                 <div class="mhp-container">
                     <div class="mhp-quick-specs__grid">
-                        <div class="mhp-quick-spec"><div class="mhp-quick-spec__icon">◻</div><div class="mhp-quick-spec__value"><?php echo esc_html($sqft_display !== '' ? $sqft_display . ' sq ft' : '—'); ?></div><div class="mhp-quick-spec__label">Heated Sq Ft</div></div>
-                        <div class="mhp-quick-spec"><div class="mhp-quick-spec__icon">⌖</div><div class="mhp-quick-spec__value"><?php echo esc_html(trim($width . ' × ' . $depth)); ?></div><div class="mhp-quick-spec__label">Footprint</div></div>
-                        <div class="mhp-quick-spec"><div class="mhp-quick-spec__icon">▭</div><div class="mhp-quick-spec__value"><?php echo esc_html($main_display !== '' ? $main_display . ' sq ft' : '—'); ?></div><div class="mhp-quick-spec__label">Main Floor</div></div>
-                        <?php if ($upper_display !== '' || $lower_display !== '') : ?>
-                            <div class="mhp-quick-spec"><div class="mhp-quick-spec__icon">⇅</div><div class="mhp-quick-spec__value"><?php echo esc_html(trim(($upper_display !== '' ? 'Upper ' . $upper_display : '') . ($lower_display !== '' ? ' / Lower ' . $lower_display : ''))); ?></div><div class="mhp-quick-spec__label">Upper/Lower</div></div>
-                        <?php endif; ?>
-                        <div class="mhp-quick-spec"><div class="mhp-quick-spec__icon">$</div><div class="mhp-quick-spec__value"><?php echo esc_html($pdf_price > 0 ? mhp_plan_money($pdf_price) : 'Call'); ?></div><div class="mhp-quick-spec__label">Price</div></div>
+                        <div class="mhp-quick-spec"><div class="mhp-quick-spec__value"><?php echo esc_html($sqft_display); ?></div><div class="mhp-quick-spec__label">Heated Sq Ft</div></div>
+                        <div class="mhp-quick-spec"><div class="mhp-quick-spec__value"><?php echo esc_html(($width !== '' && $depth !== '') ? ($width . ' × ' . $depth) : '—'); ?></div><div class="mhp-quick-spec__label">Footprint</div></div>
+                        <div class="mhp-quick-spec"><div class="mhp-quick-spec__value"><?php echo esc_html($main_display); ?></div><div class="mhp-quick-spec__label">Main Floor</div></div>
+                        <?php if ($lower_display !== '') : ?><div class="mhp-quick-spec"><div class="mhp-quick-spec__value"><?php echo esc_html($lower_display); ?></div><div class="mhp-quick-spec__label">Lower Level</div></div><?php endif; ?>
+                        <div class="mhp-quick-spec"><div class="mhp-quick-spec__value"><?php echo esc_html($price_fmt); ?></div><div class="mhp-quick-spec__label">From</div></div>
                     </div>
                 </div>
             </section>
 
             <div class="mhp-container">
-                <section class="mhp-section">
+                <section class="mhp-section mhp-reveal">
                     <div class="mhp-description-grid">
                         <div class="mhp-description__content">
+                            <p class="mhp-section__overline">The Plan</p>
                             <?php echo wp_kses_post(wpautop($plan_description)); ?>
-                            <p><em>Engineer turned builder turned designer. Every plan designed to save wasted space and cut construction costs. A family business that cares about your home from start to finish. Real people. Real plans.</em></p>
                         </div>
                         <aside class="mhp-highlights-card">
                             <h3 class="mhp-highlights-card__title">Plan Highlights</h3>
-                            <?php foreach ($highlights as $highlight) : ?>
-                                <div class="mhp-highlight-item">
-                                    <span class="mhp-highlight-item__icon" aria-hidden="true">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                                    </span>
-                                    <div class="mhp-highlight-item__text"><strong><?php echo esc_html($highlight['label']); ?>:</strong> <?php echo esc_html($highlight['value']); ?></div>
-                                </div>
-                            <?php endforeach; ?>
+                            <div class="mhp-highlight-item"><span class="mhp-highlight-item__icon"></span><div class="mhp-highlight-item__text"><strong>Style</strong><span><?php echo esc_html($style !== '' ? $style : 'Signature House Plan'); ?></span></div></div>
+                            <div class="mhp-highlight-item"><span class="mhp-highlight-item__icon"></span><div class="mhp-highlight-item__text"><strong>Outdoor</strong><span><?php echo esc_html($outdoor !== '' ? $outdoor : 'Porch & living spaces available'); ?></span></div></div>
+                            <div class="mhp-highlight-item"><span class="mhp-highlight-item__icon"></span><div class="mhp-highlight-item__text"><strong>Lot</strong><span><?php echo esc_html($lot_style !== '' ? $lot_style : 'Flexible lot compatibility'); ?></span></div></div>
+                            <div class="mhp-highlight-item"><span class="mhp-highlight-item__icon"></span><div class="mhp-highlight-item__text"><strong>Ceilings</strong><span><?php echo esc_html($ceiling !== '' ? $ceiling : 'Varied ceiling character'); ?></span></div></div>
+                            <div class="mhp-highlight-item"><span class="mhp-highlight-item__icon"></span><div class="mhp-highlight-item__text"><strong>Bonus Rooms</strong><span><?php echo esc_html($additional_rooms !== '' ? $additional_rooms : 'Flexible bonus room options'); ?></span></div></div>
+                            <div class="mhp-highlight-item"><span class="mhp-highlight-item__icon"></span><div class="mhp-highlight-item__text"><strong>Garage</strong><span><?php echo esc_html($garage !== '' ? $garage : 'No Garage Included'); ?></span></div></div>
                         </aside>
                     </div>
                 </section>
 
-                <section class="mhp-section mhp-section--alt">
-                    <header class="mhp-section__header"><p class="mhp-section__overline">Full Specifications</p><h2 class="mhp-section__title">Living Area · House Features · Construction</h2></header>
+                <section class="mhp-section mhp-section--alt mhp-reveal">
+                    <header class="mhp-section__header">
+                        <p class="mhp-section__overline">Specifications</p>
+                        <h2 class="mhp-section__title">Complete Plan Details</h2>
+                        <p class="mhp-section__subtitle">Builder-grade information presented clearly so you can compare, budget, and move with confidence.</p>
+                    </header>
                     <div class="mhp-specs-grid">
                         <div class="mhp-specs-group">
                             <h3 class="mhp-specs-group__title">Living Area</h3>
-                            <?php if ($sqft_display !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Total Living Area</span><span class="mhp-spec-row__value"><?php echo esc_html($sqft_display); ?> sq ft</span></div><?php endif; ?>
-                            <?php if ($main_display !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Main Floor</span><span class="mhp-spec-row__value"><?php echo esc_html($main_display); ?> sq ft</span></div><?php endif; ?>
-                            <?php if ($upper_display !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Upper Floor</span><span class="mhp-spec-row__value"><?php echo esc_html($upper_display); ?> sq ft</span></div><?php endif; ?>
-                            <?php if ($lower_display !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Lower Floor</span><span class="mhp-spec-row__value"><?php echo esc_html($lower_display); ?> sq ft</span></div><?php endif; ?>
-                            <?php if ($stories !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Stories</span><span class="mhp-spec-row__value"><?php echo esc_html($stories); ?></span></div><?php endif; ?>
-                            <?php if ($bedrooms !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Bedrooms</span><span class="mhp-spec-row__value"><?php echo esc_html($bedrooms); ?></span></div><?php endif; ?>
-                            <?php if ($bathrooms !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Bathrooms</span><span class="mhp-spec-row__value"><?php echo esc_html($bathrooms); ?></span></div><?php endif; ?>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Main Floor</span><span class="mhp-spec-row__value"><?php echo esc_html($main_display); ?></span></div>
+                            <?php if ($upper_display !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Upper Floor</span><span class="mhp-spec-row__value"><?php echo esc_html($upper_display); ?></span></div><?php endif; ?>
+                            <?php if ($lower_display !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Lower Floor</span><span class="mhp-spec-row__value"><?php echo esc_html($lower_display); ?></span></div><?php endif; ?>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Total Heated</span><span class="mhp-spec-row__value"><?php echo esc_html($sqft_display); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Width</span><span class="mhp-spec-row__value"><?php echo esc_html($width !== '' ? $width : '—'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Depth</span><span class="mhp-spec-row__value"><?php echo esc_html($depth !== '' ? $depth : '—'); ?></span></div>
                         </div>
                         <div class="mhp-specs-group">
                             <h3 class="mhp-specs-group__title">House Features</h3>
-                            <?php if ($style !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Style</span><span class="mhp-spec-row__value"><?php echo esc_html($style); ?></span></div><?php endif; ?>
-                            <?php if ($garage !== '' || $garage === '0') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Garage</span><span class="mhp-spec-row__value"><?php echo esc_html($garage); ?></span></div><?php endif; ?>
-                            <?php if ($outdoor !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Outdoor</span><span class="mhp-spec-row__value"><?php echo esc_html($outdoor); ?></span></div><?php endif; ?>
-                            <?php if ($lot_style !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Lot Style</span><span class="mhp-spec-row__value"><?php echo esc_html($lot_style); ?></span></div><?php endif; ?>
-                            <?php if ($additional_rooms !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Additional Rooms</span><span class="mhp-spec-row__value"><?php echo esc_html($additional_rooms); ?></span></div><?php endif; ?>
-                            <?php if ($other_features !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Other Features</span><span class="mhp-spec-row__value"><?php echo esc_html($other_features); ?></span></div><?php endif; ?>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Bedrooms</span><span class="mhp-spec-row__value"><?php echo esc_html($bedrooms !== '' ? $bedrooms : '—'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Bathrooms</span><span class="mhp-spec-row__value"><?php echo esc_html($bathrooms !== '' ? $bathrooms : '—'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Stories</span><span class="mhp-spec-row__value"><?php echo esc_html($stories !== '' ? $stories : '—'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Additional Rooms</span><span class="mhp-spec-row__value"><?php echo esc_html($additional_rooms !== '' ? $additional_rooms : '—'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Garage</span><span class="mhp-spec-row__value"><?php echo esc_html($garage !== '' ? $garage : 'No Garage Included'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Outdoor Spaces</span><span class="mhp-spec-row__value"><?php echo esc_html($outdoor !== '' ? $outdoor : '—'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Other Features</span><span class="mhp-spec-row__value"><?php echo esc_html($other_features !== '' ? $other_features : '—'); ?></span></div>
                         </div>
                         <div class="mhp-specs-group">
                             <h3 class="mhp-specs-group__title">Construction</h3>
-                            <?php if ($width !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Width</span><span class="mhp-spec-row__value"><?php echo esc_html($width); ?></span></div><?php endif; ?>
-                            <?php if ($depth !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Depth</span><span class="mhp-spec-row__value"><?php echo esc_html($depth); ?></span></div><?php endif; ?>
-                            <?php if ($roof !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Roof</span><span class="mhp-spec-row__value"><?php echo esc_html($roof); ?></span></div><?php endif; ?>
-                            <?php if ($ceiling !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Ceiling</span><span class="mhp-spec-row__value"><?php echo esc_html($ceiling); ?></span></div><?php endif; ?>
-                            <?php if ($exterior !== '') : ?><div class="mhp-spec-row"><span class="mhp-spec-row__label">Exterior</span><span class="mhp-spec-row__value"><?php echo esc_html($exterior); ?></span></div><?php endif; ?>
-                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Designer</span><span class="mhp-spec-row__value">Max Fulbright</span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Exterior Framing</span><span class="mhp-spec-row__value"><?php echo esc_html($exterior !== '' ? $exterior : 'Wood framing'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Ceiling Height</span><span class="mhp-spec-row__value"><?php echo esc_html($ceiling !== '' ? $ceiling : 'Per plan notes'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Roof Style</span><span class="mhp-spec-row__value"><?php echo esc_html($roof !== '' ? $roof : 'Per elevations'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Foundation</span><span class="mhp-spec-row__value"><?php echo esc_html($foundation); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Lot Style</span><span class="mhp-spec-row__value"><?php echo esc_html($lot_style !== '' ? $lot_style : 'Standard lot'); ?></span></div>
+                            <div class="mhp-spec-row"><span class="mhp-spec-row__label">Home Style</span><span class="mhp-spec-row__value"><?php echo esc_html($style !== '' ? $style : ucfirst($style_cat)); ?></span></div>
                         </div>
                     </div>
                 </section>
 
-                <section class="mhp-section">
-                    <header class="mhp-section__header"><p class="mhp-section__overline">Floor Plans</p><h2 class="mhp-section__title">Floor Plan Drawings & Layouts</h2></header>
-                    <div class="mhp-floor-plans__wysiwyg">
-                        <?php echo $floor_plans !== '' ? wp_kses_post($floor_plans) : '<p>Detailed floor plan sheets are included with your plan purchase.</p>'; ?>
-                    </div>
+                <section class="mhp-section mhp-reveal">
+                    <header class="mhp-section__header">
+                        <p class="mhp-section__overline">Floor Plans</p>
+                        <h2 class="mhp-section__title">Explore the Layout</h2>
+                    </header>
+                    <?php if ($floor_plans !== '') : ?>
+                        <div class="mhp-floor-plans__wysiwyg"><?php echo wp_kses_post($floor_plans); ?></div>
+                    <?php endif; ?>
                     <?php if (!empty($floor_images)) : ?>
-                        <div class="mhp-related-grid">
-                            <?php foreach ($floor_images as $fp) : ?>
-                                <article class="mhp-related-card"><img src="<?php echo esc_url($fp['url']); ?>" alt="<?php echo esc_attr($fp['alt']); ?>" loading="lazy"></article>
+                        <div class="mhp-floor-plans-grid">
+                            <?php foreach ($floor_images as $img) : ?>
+                                <div class="mhp-floor-plan-card">
+                                    <div class="mhp-floor-plan-card__image"><img src="<?php echo esc_url($img['url']); ?>" alt="<?php echo esc_attr($img['alt']); ?>" loading="lazy"></div>
+                                </div>
                             <?php endforeach; ?>
                         </div>
+                    <?php elseif ($floor_plans === '') : ?>
+                        <p>Complete floor plans for all levels included in your plan set.</p>
                     <?php endif; ?>
                 </section>
 
-                <section class="mhp-section mhp-section--alt">
-                    <header class="mhp-section__header"><p class="mhp-section__overline">Cost-To-Build Estimator</p><h2 class="mhp-section__title">Estimate by Region and Finish Level</h2></header>
+                <section class="mhp-section mhp-section--alt mhp-reveal">
+                    <header class="mhp-section__header">
+                        <p class="mhp-section__overline">Budget Planning</p>
+                        <h2 class="mhp-section__title">Cost to Build Estimator</h2>
+                        <p class="mhp-section__subtitle">Get a ballpark estimate before you commit.</p>
+                    </header>
                     <div class="mhp-estimator">
                         <div class="mhp-estimator__inner">
-                            <div class="mhp-estimator__info"><p class="mhp-estimator__desc">Use this planning tool for a directional range before bidding.</p></div>
+                            <div class="mhp-estimator__info">
+                                <p>The #1 question every plan buyer has — and nobody answers it on the page. Use this to plan your budget before you buy.</p>
+                                <p>Site work, permits, and land are not included. Get a local builder bid for your specific property.</p>
+                            </div>
                             <div class="mhp-estimator__calc">
                                 <label for="mhpRegion">Region</label>
                                 <select id="mhpRegion">
-                                    <option value="south">South</option><option value="midwest">Midwest</option><option value="northeast">Northeast</option><option value="west">West</option>
+                                    <option value="southeast">Southeast</option>
+                                    <option value="south_central">South Central</option>
+                                    <option value="midwest">Midwest</option>
+                                    <option value="mountain_west">Mountain West</option>
+                                    <option value="northeast">Northeast</option>
+                                    <option value="pacific_nw">Pacific Northwest</option>
+                                    <option value="west_coast">West Coast</option>
                                 </select>
-                                <label for="mhpFinishLevel">Finish Level: <span id="mhpFinishLabel">Standard</span></label>
-                                <input id="mhpFinishLevel" type="range" min="1" max="3" step="1" value="1">
+                                <label for="mhpFinish">Finish Level: <span id="mhpFinishLabel">Mid-Range Build</span></label>
+                                <input id="mhpFinish" type="range" min="1" max="4" step="1" value="2">
                                 <div class="mhp-estimator__result">
-                                    <div><strong>Low:</strong> <span id="mhpCostLow">$0</span></div>
-                                    <div><strong>High:</strong> <span id="mhpCostHigh">$0</span></div>
+                                    <div><strong id="mhpEstRange">$0 – $0</strong><span id="mhpEstPsf">$0 – $0 per sq ft</span></div>
+                                    <div><small>Materials</small><span id="mhpMat">$0K – $0K</span></div>
+                                    <div><small>Labor</small><span id="mhpLab">$0K – $0K</span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="mhp-section">
-                    <header class="mhp-section__header"><h2 class="mhp-section__title">What's Included</h2></header>
+                <section class="mhp-section mhp-reveal">
+                    <header class="mhp-section__header">
+                        <p class="mhp-section__overline">What’s Included</p>
+                        <h2 class="mhp-section__title">Everything You Need to Build</h2>
+                    </header>
                     <div class="mhp-included-grid">
-                        <div class="mhp-included-card">Elevations<br><small>Exterior views with dimensional guidance.</small></div>
-                        <div class="mhp-included-card">Floor Plans<br><small>Room layout, walls, openings, and flow.</small></div>
-                        <div class="mhp-included-card">Foundation Plan<br><small>Structural foundation framework details.</small></div>
-                        <div class="mhp-included-card">Roof Plan<br><small>Roof geometry, slopes, and framing intent.</small></div>
+                        <article class="mhp-included-card"><div class="mhp-included-card__title">Elevations</div><div class="mhp-included-card__desc">Exterior views that define proportions, materials, and curb appeal.</div></article>
+                        <article class="mhp-included-card"><div class="mhp-included-card__title">Floor Plans</div><div class="mhp-included-card__desc">Room-by-room layout with dimensions and circulation intent.</div></article>
+                        <article class="mhp-included-card"><div class="mhp-included-card__title">Foundation Plan</div><div class="mhp-included-card__desc">Structural base information for coordination with your local team.</div></article>
+                        <article class="mhp-included-card"><div class="mhp-included-card__title">Roof Plan</div><div class="mhp-included-card__desc">Roof framing direction, slopes, and key geometry details.</div></article>
                     </div>
                 </section>
 
-                <?php if (!empty($related_plans) && is_array($related_plans)) : ?>
-                    <section class="mhp-section mhp-section--alt">
-                        <header class="mhp-section__header"><h2 class="mhp-section__title">Related Plans</h2></header>
+                <?php if (is_array($related_plans) && !empty($related_plans)) : ?>
+                    <section class="mhp-section mhp-section--alt mhp-reveal">
+                        <header class="mhp-section__header">
+                            <p class="mhp-section__overline">More to Explore</p>
+                            <h2 class="mhp-section__title">Related House Plans</h2>
+                        </header>
                         <div class="mhp-related-grid">
                             <?php foreach ($related_plans as $related) : ?>
                                 <?php if (!($related instanceof WP_Post)) { continue; } ?>
-                                <?php $r_id = $related->ID; ?>
+                                <?php
+                                $rid = $related->ID;
+                                $r_name = (string) mhp_get_plan_field('plan_name', $rid, get_the_title($rid));
+                                $r_sqft = (string) mhp_get_plan_field('total_living_area', $rid, '');
+                                $r_bed  = (string) mhp_get_plan_field('bedrooms', $rid, '');
+                                $r_bath = (string) mhp_get_plan_field('bathrooms', $rid, '');
+                                ?>
                                 <article class="mhp-related-card">
-                                    <a href="<?php echo esc_url(get_permalink($r_id)); ?>">
-                                        <?php echo get_the_post_thumbnail($r_id, 'medium', array('loading' => 'lazy', 'decoding' => 'async')); ?>
-                                        <h3><?php echo esc_html(get_field('plan_name', $r_id) ?: get_the_title($r_id)); ?></h3>
+                                    <a href="<?php echo esc_url(get_permalink($rid)); ?>">
+                                        <div class="mhp-related-card__image"><?php echo get_the_post_thumbnail($rid, 'large', array('loading' => 'lazy', 'decoding' => 'async')); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+                                        <div class="mhp-related-card__info">
+                                            <h3 class="mhp-related-card__name"><?php echo esc_html($r_name); ?></h3>
+                                            <p class="mhp-related-card__specs"><?php echo esc_html(trim(($r_sqft !== '' ? $r_sqft . ' sq ft · ' : '') . ($r_bed !== '' ? $r_bed . ' bed · ' : '') . ($r_bath !== '' ? $r_bath . ' bath' : ''))); ?></p>
+                                            <span class="mhp-related-card__link">View Plan →</span>
+                                        </div>
                                     </a>
                                 </article>
                             <?php endforeach; ?>
@@ -545,109 +578,120 @@ function mhp_render_single_plan_v2() {
                     </section>
                 <?php endif; ?>
 
-                <section class="mhp-section">
-                    <header class="mhp-section__header"><h2 class="mhp-section__title">Frequently Asked Questions</h2></header>
+                <section class="mhp-section mhp-reveal" id="contact">
+                    <header class="mhp-section__header">
+                        <p class="mhp-section__overline">FAQ</p>
+                        <h2 class="mhp-section__title">Questions Buyers Ask Before They Build</h2>
+                    </header>
                     <div class="mhp-faq-list">
-                        <?php foreach ($faqs as $i => $faq) : ?>
-                            <?php $q = isset($faq['question']) ? trim((string) $faq['question']) : ''; $a = isset($faq['answer']) ? trim((string) $faq['answer']) : ''; if ($q === '' || $a === '') { continue; } ?>
+                        <?php foreach ($faqs as $index => $faq) : ?>
+                            <?php
+                            $q = isset($faq['question']) ? trim((string) $faq['question']) : '';
+                            $a = isset($faq['answer']) ? trim((string) $faq['answer']) : '';
+                            if ($q === '' || $a === '') { continue; }
+                            ?>
                             <article class="mhp-faq-item">
-                                <button class="mhp-faq-question" aria-expanded="false" aria-controls="mhp-faq-answer-<?php echo esc_attr((string) $i); ?>"><span><?php echo esc_html($q); ?></span><span class="mhp-faq-question__icon">+</span></button>
-                                <div id="mhp-faq-answer-<?php echo esc_attr((string) $i); ?>" class="mhp-faq-answer" hidden><div class="mhp-faq-answer__inner"><?php echo wp_kses_post(wpautop($a)); ?></div></div>
+                                <button class="mhp-faq-question" type="button" aria-expanded="false">
+                                    <span><?php echo esc_html($q); ?></span>
+                                    <span class="mhp-faq-question__icon">+</span>
+                                </button>
+                                <div class="mhp-faq-answer">
+                                    <div class="mhp-faq-answer__inner"><?php echo wp_kses_post(wpautop($a)); ?></div>
+                                </div>
                             </article>
                         <?php endforeach; ?>
                     </div>
                 </section>
 
-                <section class="mhp-cta-section" id="mhp-plan-contact">
-                    <h2 class="mhp-cta__title">Ready to Build Your Dream Home?</h2>
-                    <p class="mhp-cta__text">Engineer turned builder turned designer. Every plan designed to save wasted space and cut construction costs. A family business that cares about your home from start to finish. Real people. Real plans.</p>
-                    <div class="mhp-cta__buttons">
-                        <a class="mhp-btn-cta mhp-btn-cta--primary" href="<?php echo esc_url($buy_url); ?>">Purchase Plan</a>
-                        <a class="mhp-btn-cta mhp-btn-cta--outline" href="<?php echo esc_url(home_url('/contact/')); ?>">Modify Plan</a>
-                        <a class="mhp-btn-cta mhp-btn-cta--outline" href="<?php echo esc_url(home_url('/contact/')); ?>">Contact</a>
+                <section class="mhp-cta-section mhp-reveal">
+                    <div class="mhp-container">
+                        <h2 class="mhp-cta__title">Ready to Build Your Dream Home?</h2>
+                        <p class="mhp-cta__text"><?php echo esc_html($plan_name); ?> was designed to be beautiful on paper and practical on the jobsite. Choose your format and take the next step.</p>
+                        <div class="mhp-cta__buttons">
+                            <a class="mhp-btn-cta mhp-btn-cta--primary" href="<?php echo esc_url($buy_href); ?>">Purchase This Plan</a>
+                            <a class="mhp-btn-cta mhp-btn-cta--outline" href="<?php echo esc_url(home_url('/contact/')); ?>">Request a Modification</a>
+                            <a class="mhp-btn-cta mhp-btn-cta--outline" href="<?php echo esc_url(home_url('/contact/')); ?>">Talk With Our Family</a>
+                        </div>
                     </div>
                 </section>
             </div>
 
             <div class="mhp-mobile-buy-bar">
                 <div class="mhp-mobile-buy-bar__inner">
-                    <div><div class="mhp-mobile-buy-bar__name"><?php echo esc_html($plan_name); ?></div><div class="mhp-mobile-buy-bar__price"><?php echo esc_html($pdf_price > 0 ? mhp_plan_money($pdf_price) : 'Call for pricing'); ?></div></div>
-                    <a class="mhp-btn-buy" href="<?php echo esc_url($buy_url); ?>">Buy</a>
+                    <div class="mhp-mobile-buy-bar__name"><?php echo esc_html($plan_name); ?></div>
+                    <div class="mhp-mobile-buy-bar__price"><?php echo esc_html($price_fmt); ?></div>
+                    <a class="mhp-btn-buy" href="<?php echo esc_url($buy_href); ?>">Buy</a>
                 </div>
             </div>
+
+            <span id="mhpSqftData" data-sqft="<?php echo (int) $sqft_int; ?>" style="display:none"></span>
         </article>
 
         <script>
-            (function () {
-                var options = document.querySelectorAll('.mhp-price-option');
-                var paypalFormat = document.getElementById('mhp-paypal-format');
-                options.forEach(function (opt) {
-                    var radio = opt.querySelector('input[type="radio"]');
-                    if (!radio) return;
-                    radio.addEventListener('change', function () {
-                        options.forEach(function (o) { o.classList.remove('mhp-selected'); });
-                        opt.classList.add('mhp-selected');
-                        if (paypalFormat) paypalFormat.value = radio.value === 'cad' ? 'CAD + PDF Set' : 'PDF Plan Set';
-                    });
-                });
-
-                var faqButtons = document.querySelectorAll('.mhp-faq-question');
-                faqButtons.forEach(function (button) {
-                    button.addEventListener('click', function () {
-                        var expanded = button.getAttribute('aria-expanded') === 'true';
-                        var id = button.getAttribute('aria-controls');
-                        var panel = id ? document.getElementById(id) : null;
-                        var icon = button.querySelector('.mhp-faq-question__icon');
-                        button.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-                        if (!panel) return;
-
-                        if (expanded) {
-                            panel.style.maxHeight = panel.scrollHeight + 'px';
-                            requestAnimationFrame(function () {
-                                panel.style.maxHeight = '0px';
-                            });
-                            setTimeout(function () { panel.hidden = true; panel.classList.remove('mhp-open'); }, 250);
-                            if (icon) icon.textContent = '+';
-                        } else {
-                            panel.hidden = false;
-                            panel.classList.add('mhp-open');
-                            panel.style.maxHeight = '0px';
-                            requestAnimationFrame(function () { panel.style.maxHeight = panel.scrollHeight + 'px'; });
-                            if (icon) icon.textContent = '−';
-                        }
-                    });
-                });
-
-                var sqFt = parseFloat('<?php echo esc_js($total_living !== '' ? $total_living : '0'); ?>') || 0;
-                var regionEl = document.getElementById('mhpRegion');
-                var finishEl = document.getElementById('mhpFinishLevel');
-                var finishLabel = document.getElementById('mhpFinishLabel');
-                var lowEl = document.getElementById('mhpCostLow');
-                var highEl = document.getElementById('mhpCostHigh');
-
-                var regionBase = { south: 165, midwest: 180, northeast: 220, west: 235 };
-                var finishMult = { 1: {label: 'Standard', low: 0.95, high: 1.08}, 2: {label: 'Premium', low: 1.1, high: 1.25}, 3: {label: 'Luxury', low: 1.28, high: 1.5} };
-
-                function money(v) { return '$' + Math.round(v).toLocaleString(); }
-                function calcEstimate() {
-                    if (!regionEl || !finishEl || !lowEl || !highEl || sqFt <= 0) return;
-                    var rb = regionBase[regionEl.value] || 180;
-                    var f = finishMult[finishEl.value] || finishMult[1];
-                    if (finishLabel) finishLabel.textContent = f.label;
-                    lowEl.textContent = money(sqFt * rb * f.low);
-                    highEl.textContent = money(sqFt * rb * f.high);
-                }
-
-                if (regionEl && finishEl) {
-                    regionEl.addEventListener('change', calcEstimate);
-                    finishEl.addEventListener('input', calcEstimate);
-                    calcEstimate();
-                }
-            })();
+        (function(){
+          if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(function(entries){
+              entries.forEach(function(e){
+                if (e.isIntersecting) { e.target.classList.add('mhp-revealed'); io.unobserve(e.target); }
+              });
+            }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.mhp-reveal').forEach(function(el){ io.observe(el); });
+          } else {
+            document.querySelectorAll('.mhp-reveal').forEach(function(el){ el.classList.add('mhp-revealed'); });
+          }
+          window.mhpSelect = function(fmt) {
+            document.querySelectorAll('.mhp-price-option').forEach(function(o){ o.classList.remove('mhp-selected'); var r=o.querySelector('input[type="radio"]'); if(r){ r.checked=false; } });
+            var el = document.getElementById(fmt === 'pdf' ? 'mhpOptPdf' : 'mhpOptCad');
+            if (el) { el.classList.add('mhp-selected'); var rr=el.querySelector('input[type="radio"]'); if(rr){ rr.checked=true; } }
+          };
+          document.querySelectorAll('.mhp-price-option').forEach(function(opt){
+            opt.addEventListener('click', function(){ mhpSelect(opt.getAttribute('data-format') || 'pdf'); });
+          });
+          window.mhpFaq = function(btn) {
+            var item = btn.parentElement, isOpen = item.classList.contains('mhp-open');
+            document.querySelectorAll('.mhp-faq-item').forEach(function(f){
+              f.classList.remove('mhp-open');
+              var q = f.querySelector('.mhp-faq-question'); if (q) q.setAttribute('aria-expanded','false');
+              var a = f.querySelector('.mhp-faq-answer'); if (a) a.style.maxHeight = '0';
+            });
+            if (!isOpen) {
+              item.classList.add('mhp-open'); btn.setAttribute('aria-expanded','true');
+              var ans = item.querySelector('.mhp-faq-answer'); if (ans) ans.style.maxHeight = ans.scrollHeight + 'px';
+            }
+          };
+          document.querySelectorAll('.mhp-faq-question').forEach(function(btn){
+            btn.addEventListener('click', function(){ mhpFaq(btn); });
+          });
+          var sqftEl = document.getElementById('mhpSqftData');
+          var SQFT = sqftEl ? parseInt(sqftEl.dataset.sqft, 10) : 0;
+          var R = {
+            southeast:{lo:155,hi:210}, south_central:{lo:145,hi:200}, midwest:{lo:150,hi:205},
+            mountain_west:{lo:180,hi:245}, northeast:{lo:205,hi:280},
+            pacific_nw:{lo:190,hi:260}, west_coast:{lo:225,hi:315}
+          };
+          var F = { 1:{f:0.85,l:'Standard'}, 2:{f:1.0,l:'Mid-Range'}, 3:{f:1.3,l:'Custom'}, 4:{f:1.65,l:'Premium Custom'} };
+          window.mhpCalc = function() {
+            var rEl = document.getElementById('mhpRegion'), fEl = document.getElementById('mhpFinish');
+            if (!rEl || !fEl || !SQFT) return;
+            var r = R[rEl.value], f = F[parseInt(fEl.value, 10)];
+            var lo = Math.round(r.lo * f.f) * SQFT, hi = Math.round(r.hi * f.f) * SQFT;
+            var s = function(id, v){ var e=document.getElementById(id); if(e) e.textContent=v; };
+            s('mhpFinishLabel', f.l + ' Build');
+            s('mhpEstRange', '$' + lo.toLocaleString() + ' – $' + hi.toLocaleString());
+            s('mhpEstPsf', '$' + Math.round(r.lo*f.f) + ' – $' + Math.round(r.hi*f.f) + ' per sq ft');
+            s('mhpMat', '$' + Math.round(lo*0.45/1000) + 'K – $' + Math.round(hi*0.45/1000) + 'K');
+            s('mhpLab', '$' + Math.round(lo*0.35/1000) + 'K – $' + Math.round(hi*0.35/1000) + 'K');
+          };
+          var regionEl = document.getElementById('mhpRegion');
+          var finishEl = document.getElementById('mhpFinish');
+          if (regionEl) { regionEl.addEventListener('change', mhpCalc); }
+          if (finishEl) { finishEl.addEventListener('input', mhpCalc); }
+          if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', mhpCalc); } else { mhpCalc(); }
+        })();
         </script>
         <?php
     }
 }
-add_action('genesis_loop', 'mhp_render_single_plan_v2');
+add_action('genesis_loop', 'mhp_render_single_plan_v3');
 
 genesis();
