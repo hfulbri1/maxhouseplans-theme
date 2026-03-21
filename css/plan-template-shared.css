@@ -522,3 +522,77 @@
   .mhp-quick-specs__grid    { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--mhp-space-lg); }
   .mhp-cta__buttons         { flex-direction: column; align-items: center; }
 }
+
+/* ============================================================
+   UNIVERSAL PLAN V2 ADDITIONS
+   ============================================================ */
+.mhp-authority-strip {
+  background: var(--mhp-primary);
+  color: var(--mhp-white);
+  padding: var(--mhp-space-2xl) 0;
+}
+.mhp-authority-strip__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--mhp-space-xl);
+}
+.mhp-authority-strip__col h3 {
+  font-family: var(--mhp-font-display);
+  font-size: 1.35rem;
+  margin: 0 0 var(--mhp-space-sm);
+  color: var(--mhp-white);
+}
+.mhp-authority-strip__col {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  opacity: 0.95;
+}
+.mhp-authority-process {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  counter-reset: mhp-process;
+}
+.mhp-authority-process span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+.mhp-authority-process span::before {
+  counter-increment: mhp-process;
+  content: counter(mhp-process);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.14);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.mhp-quick-specs-bar {
+  background: var(--mhp-primary-dark);
+  color: var(--mhp-white);
+  padding: var(--mhp-space-lg) 0;
+}
+.mhp-quick-specs-bar .mhp-quick-spec__value,
+.mhp-quick-specs-bar .mhp-quick-spec__label,
+.mhp-quick-specs-bar .mhp-quick-spec__icon { color: var(--mhp-white); }
+
+.mhp-estimator { background: var(--mhp-white); border: 1px solid var(--mhp-border); }
+.mhp-estimator__inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--mhp-space-xl); padding: var(--mhp-space-xl); }
+.mhp-estimator__calc label { display:block; font-weight:600; margin: 0 0 6px; }
+.mhp-estimator__calc select,
+.mhp-estimator__calc input[type="range"] { width: 100%; margin-bottom: var(--mhp-space-md); }
+.mhp-estimator__result { display:flex; justify-content:space-between; gap: var(--mhp-space-lg); font-family: var(--mhp-font-display); font-size: 1.2rem; color: var(--mhp-primary); }
+.mhp-modify-link { margin-top: 10px; font-size: 0.9rem; }
+
+.mhp-style--farmhouse { --mhp-accent: #A0522D; --mhp-accent-warm: #8E482A; }
+.mhp-style--craftsman { --mhp-accent: #4A5568; --mhp-accent-warm: #3E4A5A; }
+
+@media (max-width: 1024px) {
+  .mhp-authority-strip__grid,
+  .mhp-estimator__inner { grid-template-columns: 1fr; }
+}
