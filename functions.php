@@ -152,6 +152,19 @@ function mhp_enqueue_assets() {
     );
 
     // -----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
+    // Shared Plan Template CSS — loaded on all plan pages (cacheable, no inline bloat)
+    // -----------------------------------------------------------------------
+    if ( is_singular( 'plans' ) ) {
+        $plan_css_path = get_stylesheet_directory() . '/css/plan-template-shared.css';
+        wp_enqueue_style(
+            'mhp-plan-template-shared',
+            get_stylesheet_directory_uri() . '/css/plan-template-shared.css',
+            array( 'mhp-google-fonts' ),
+            file_exists( $plan_css_path ) ? filemtime( $plan_css_path ) : '1.0'
+        );
+    }
+
     // Sticky CTA JS â€" plan pages only
     // -----------------------------------------------------------------------
     if ( is_singular( 'plans' ) ) {
