@@ -1,6 +1,6 @@
 <?php
 /**
- * Universal Single Plan Template (v3 — 2026)
+ * Universal Single Plan Template (v3.1 — 2026)
  *
  * @package MaxHousePlans
  */
@@ -695,3 +695,4 @@ function mhp_render_single_plan_v3() {
 add_action('genesis_loop', 'mhp_render_single_plan_v3');
 
 genesis();
+
